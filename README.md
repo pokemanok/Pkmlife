@@ -29,7 +29,7 @@ python3 -m http.server 8080
 
 发布方式：**Deploy from a branch**，分支 `main`，文件夹 `/`（root）。
 
-如果仓库设置里还没有打开 Pages，按下面步骤操作：
+当前仓库的 Pages **还没有打开**。用接口创建站点时返回 403（当前凭证没有 Pages 管理权限），所以需要在 GitHub 网页里手动开启：
 
 1. 打开仓库的 **Settings → Pages**。
 2. **Build and deployment** 里，Source 选择 **Deploy from a branch**。
