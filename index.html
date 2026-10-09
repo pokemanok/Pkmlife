@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>pokeman</title>
+  <meta name="description" content="pokeman 的个人主页。">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#f4f1eb">
+  <style>
+    :root {
+      --bg: #f4f1eb;
+      --ink: #1f1c19;
+      --muted: #6f675f;
+      --line: #e4ddd3;
+      --accent: #2a6a52;
+      --accent-soft: #e5f0ea;
+      --shadow: 0 1px 0 rgba(31, 28, 25, 0.04);
+      color-scheme: light;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #141311;
+        --ink: #f4efe8;
+        --muted: #b3aaa0;
+        --line: #2c2926;
+        --accent: #8dceaf;
+        --accent-soft: #1c2b24;
+        --shadow: none;
+        color-scheme: dark;
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(1200px 480px at 50% -120px, var(--accent-soft), transparent 70%),
+        var(--bg);
+      color: var(--ink);
+      font-family: "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+      font-size: 1.0625rem;
+      line-height: 1.7;
+      text-rendering: optimizeLegibility;
+    }
+
+    a {
+      color: inherit;
+      text-underline-offset: 0.18em;
+    }
+
+    a:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+
+    .page {
+      width: min(40rem, calc(100% - 2.5rem));
+      margin: 0 auto;
+      padding: 4.5rem 0 3.5rem;
+    }
+
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem 1rem;
+      margin: 0 0 3.25rem;
+      padding: 0;
+      list-style: none;
+      font-size: 0.92rem;
+      color: var(--muted);
+    }
+
+    .nav a {
+      text-decoration: none;
+    }
+
+    .nav a:hover {
+      color: var(--ink);
+    }
+
+    header h1 {
+      margin: 0.35rem 0 0.9rem;
+      font-family: "Iowan Old Style", Palatino, "Palatino Linotype", "Songti SC", "Noto Serif SC", "STSong", serif;
+      font-size: clamp(3rem, 10vw, 4.75rem);
+      font-weight: 500;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+    }
+
+    .kicker {
+      margin: 0;
+      color: var(--accent);
+      font-size: 0.82rem;
+      letter-spacing: 0.14em;
+    }
+
+    .bio {
+      max-width: 34rem;
+      margin: 0;
+      color: var(--muted);
+      font-size: 1.125rem;
+    }
+
+    section {
+      margin-top: 2.75rem;
+      padding-top: 1.75rem;
+      border-top: 1px solid var(--line);
+    }
+
+    h2 {
+      margin: 0 0 0.75rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+    }
+
+    section p {
+      margin: 0;
+    }
+
+    .links {
+      margin: 0.25rem 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .links a {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.85rem 0;
+      border-bottom: 1px solid var(--line);
+      text-decoration: none;
+      box-shadow: var(--shadow);
+    }
+
+    .links a:hover .name {
+      color: var(--accent);
+    }
+
+    .links .name {
+      font-weight: 560;
+    }
+
+    .links .url {
+      color: var(--muted);
+      font-size: 0.92rem;
+      overflow-wrap: anywhere;
+    }
+
+    .links .url::after {
+      content: " ↗";
+      font-size: 0.85em;
+    }
+
+    footer {
+      margin-top: 3.25rem;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        width: min(40rem, calc(100% - 2rem));
+        padding-top: 2.75rem;
+      }
+
+      .links a {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.15rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <nav aria-label="页内导航">
+      <ul class="nav">
+        <li><a href="#about">关于我</a></li>
+        <li><a href="#links">链接</a></li>
+        <li><a href="#contact">联系</a></li>
+      </ul>
+    </nav>
+
+    <header>
+      <p class="kicker">个人主页</p>
+      <h1>pokeman</h1>
+      <p class="bio">把这里换成一句短介绍。例如你在做什么，或者你希望别人如何认识你。</p>
+    </header>
+
+    <section id="about" aria-labelledby="about-title">
+      <h2 id="about-title">关于我</h2>
+      <p>这里可以多写几句：兴趣、近况、正在做的事。这是占位文字，请换成你自己的内容。</p>
+    </section>
+
+    <section id="links" aria-labelledby="links-title">
+      <h2 id="links-title">链接</h2>
+      <ul class="links">
+        <li>
+          <a href="https://github.com/pokemanok">
+            <span class="name">GitHub</span>
+            <span class="url">github.com/pokemanok</span>
+          </a>
+        </li>
+      </ul>
+    </section>
+
+    <section id="contact" aria-labelledby="contact-title">
+      <h2 id="contact-title">联系</h2>
+      <p>欢迎通过 <a href="https://github.com/pokemanok">GitHub</a> 与我联系。若要留下邮箱或其他方式，把这句话换掉即可。</p>
+    </section>
+
+    <footer>
+      <p>pokeman</p>
+    </footer>
+  </main>
+</body>
+</html>
