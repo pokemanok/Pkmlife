@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>加密聊天 · pokeman</title>
+  <meta name="description" content="浏览器端 AES-GCM 加密聊天演示（纯静态托管）。">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#f3efe8" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#12110f" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='16' fill='%23143f34'/%3E%3Ctext x='16' y='21.5' text-anchor='middle' font-family='Georgia,serif' font-size='16' fill='%23f6f1e8'%3EP%3C/text%3E%3C/svg%3E">
+  <style>
+    :root {
+      --bg: #f3efe8;
+      --ink: #1c1916;
+      --muted: #5c564e;
+      --faint: #847b70;
+      --line: rgba(28, 25, 22, 0.12);
+      --accent: #0f6e56;
+      --accent-ink: #0c5946;
+      --warm: #9a4e24;
+      --card: #fffcf7;
+      --mine: rgba(15, 110, 86, 0.12);
+      --theirs: rgba(28, 25, 22, 0.06);
+      --danger: #a33b2b;
+      --topbar: rgba(243, 239, 232, 0.9);
+      color-scheme: light;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #12110f;
+        --ink: #f4efe8;
+        --muted: #c4bbb1;
+        --faint: #9a9186;
+        --line: rgba(244, 239, 232, 0.14);
+        --accent: #8fd4be;
+        --accent-ink: #c5ecdf;
+        --warm: #f0b48a;
+        --card: #1c1a17;
+        --mine: rgba(143, 212, 190, 0.16);
+        --theirs: rgba(255, 255, 255, 0.06);
+        --danger: #f0a090;
+        --topbar: rgba(18, 17, 15, 0.9);
+        color-scheme: dark;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+      font-size: 1rem;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent-ink); }
+    a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.85rem 1.25rem;
+      border-bottom: 1px solid var(--line);
+      background: var(--topbar);
+      backdrop-filter: blur(14px);
+    }
+    .brand { color: inherit; text-decoration: none; font-weight: 600; }
+    .wrap {
+      width: min(40rem, calc(100% - 1.5rem));
+      margin: 0 auto;
+      padding: 1.5rem 0 2.5rem;
+    }
+    h1 {
+      margin: 0 0 0.4rem;
+      font-family: "Iowan Old Style", Palatino, "Songti SC", "Noto Serif SC", serif;
+      font-size: clamp(1.6rem, 6vw, 2.2rem);
+      font-weight: 500;
+      letter-spacing: -0.03em;
+    }
+    .lead { margin: 0 0 1.25rem; color: var(--muted); }
+    .note {
+      margin: 0 0 1.25rem;
+      padding: 0.9rem 1rem;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--card);
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+    .note strong { color: var(--ink); }
+    .panel {
+      display: none;
+      flex-direction: column;
+      gap: 0.85rem;
+      padding: 1.15rem;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: var(--card);
+    }
+    .panel.active { display: flex; }
+    label {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--muted);
+    }
+    input, textarea, button {
+      font: inherit;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 0.7rem 0.85rem;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--bg);
+      color: var(--ink);
+    }
+    textarea { min-height: 5.5rem; resize: vertical; }
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+    }
+    button {
+      cursor: pointer;
+      padding: 0.65rem 1rem;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 600;
+    }
+    @media (prefers-color-scheme: dark) {
+      button { color: #10241c; }
+    }
+    button.secondary {
+      background: transparent;
+      border-color: var(--line);
+      color: var(--ink);
+    }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+    .status {
+      margin: 0;
+      color: var(--faint);
+      font-size: 0.86rem;
+    }
+    .status.err { color: var(--danger); }
+    .room-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1rem;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+    .pill {
+      display: inline-flex;
+      padding: 0.2rem 0.55rem;
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--accent) 14%, transparent);
+      color: var(--accent-ink);
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+    #log {
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+      min-height: 16rem;
+      max-height: min(52vh, 28rem);
+      overflow: auto;
+      padding: 0.75rem;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--bg);
+    }
+    .msg {
+      max-width: 88%;
+      padding: 0.55rem 0.75rem;
+      border-radius: 14px;
+      word-break: break-word;
+    }
+    .msg.mine {
+      align-self: flex-end;
+      background: var(--mine);
+    }
+    .msg.theirs {
+      align-self: flex-start;
+      background: var(--theirs);
+    }
+    .msg .who {
+      display: block;
+      margin-bottom: 0.15rem;
+      color: var(--faint);
+      font-size: 0.75rem;
+    }
+    .msg .time {
+      display: block;
+      margin-top: 0.25rem;
+      color: var(--faint);
+      font-size: 0.72rem;
+      text-align: right;
+    }
+    .composer {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 0.55rem;
+      align-items: end;
+    }
+    .composer textarea { min-height: 3.2rem; }
+    details {
+      margin-top: 0.25rem;
+      border-top: 1px solid var(--line);
+      padding-top: 0.85rem;
+    }
+    details summary {
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--muted);
+    }
+    code, .mono {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.86em;
+    }
+    .ciphertext {
+      width: 100%;
+      min-height: 4.5rem;
+      margin-top: 0.5rem;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.78rem;
+    }
+    @media (max-width: 520px) {
+      .composer { grid-template-columns: 1fr; }
+      .composer button { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="../">← pokeman</a>
+    <span class="pill">AES-GCM · 客户端加密</span>
+  </header>
+
+  <main class="wrap">
+    <h1>加密聊天室</h1>
+    <p class="lead">口令只留在本机浏览器，明文不会写入 URL。消息先用 WebCrypto AES-GCM 加密，再本地同步或导出密文。</p>
+
+    <div class="note">
+      <strong>纯静态托管的局限：</strong>GitHub Pages 没有实时后端。本页默认用 <span class="mono">BroadcastChannel</span> + <span class="mono">localStorage</span>，适合同一浏览器多标签演示。跨设备请约定同一口令，用下方「导出 / 粘贴密文」交换；或自行接入公共 WebSocket / WebRTC 信令（仅传输密文）。与助手对话时：双方使用同一口令，你发送密文包，助手用相同口令解密后回复密文包。
+    </div>
+
+    <section id="gate" class="panel active" aria-labelledby="gate-title">
+      <h2 id="gate-title" style="margin:0;font-size:1.05rem;">进入房间</h2>
+      <label>
+        显示名称
+        <input id="nick" type="text" maxlength="32" placeholder="例如：破壳漫" autocomplete="nickname">
+      </label>
+      <label>
+        共享口令（不会出现在地址栏）
+        <input id="pass" type="password" maxlength="256" placeholder="双方约定的口令" autocomplete="off">
+      </label>
+      <label>
+        房间名（用于本机频道隔离，可随意）
+        <input id="room" type="text" maxlength="64" placeholder="默认：pkm-chat" value="pkm-chat" autocomplete="off">
+      </label>
+      <div class="row">
+        <button type="button" id="joinBtn">进入并派生密钥</button>
+      </div>
+      <p class="status" id="gateStatus" role="status"></p>
+    </section>
+
+    <section id="roomPanel" class="panel" aria-labelledby="room-title">
+      <div class="room-meta">
+        <div>
+          <strong id="room-title">房间</strong>
+          <span id="roomLabel"></span>
+          · <span id="nickLabel"></span>
+        </div>
+        <button type="button" class="secondary" id="leaveBtn">离开</button>
+      </div>
+      <p class="status" id="roomStatus">已就绪。同浏览器其他标签页会即时同步密文。</p>
+      <div id="log" aria-live="polite"></div>
+      <div class="composer">
+        <label style="margin:0;">
+          消息（发送前加密）
+          <textarea id="draft" maxlength="4000" placeholder="输入明文，点击发送后只会保存/同步密文"></textarea>
+        </label>
+        <button type="button" id="sendBtn">发送</button>
+      </div>
+      <details>
+        <summary>跨设备 / 与助手交换密文</summary>
+        <p class="status" style="margin-top:0.65rem;">复制下方最新一条密文 JSON，粘贴给对方或助手；对方用同一口令导入即可解密。勿把口令或明文放进 URL。</p>
+        <div class="row">
+          <button type="button" class="secondary" id="exportBtn">导出最近密文</button>
+          <button type="button" class="secondary" id="importBtn">导入密文</button>
+          <button type="button" class="secondary" id="clearBtn">清空本地记录</button>
+        </div>
+        <textarea id="blobBox" class="ciphertext" placeholder='{"v":1,"alg":"AES-GCM",...}' spellcheck="false"></textarea>
+      </details>
+    </section>
+  </main>
+
+  <script>
+(function () {
+  "use strict";
+
+  const te = new TextEncoder();
+  const td = new TextDecoder();
+  let key = null;
+  let nick = "";
+  let roomId = "";
+  let channel = null;
+  let lastPacket = null;
+  const storageKey = () => "pkm-chat:" + roomId;
+
+  const $ = (id) => document.getElementById(id);
+  const gate = $("gate");
+  const roomPanel = $("roomPanel");
+  const logEl = $("log");
+  const gateStatus = $("gateStatus");
+  const roomStatus = $("roomStatus");
+
+  function setStatus(el, text, isErr) {
+    el.textContent = text || "";
+    el.classList.toggle("err", !!isErr);
+  }
+
+  function b64(buf) {
+    const bytes = buf instanceof ArrayBuffer ? new Uint8Array(buf) : buf;
+    let s = "";
+    for (let i = 0; i < bytes.length; i++) s += String.fromCharCode(bytes[i]);
+    return btoa(s);
+  }
+
+  function fromB64(str) {
+    const bin = atob(str);
+    const out = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
+    return out;
+  }
+
+  async function deriveKey(passphrase, room) {
+    const material = await crypto.subtle.importKey(
+      "raw",
+      te.encode(passphrase),
+      "PBKDF2",
+      false,
+      ["deriveKey"]
+    );
+    // Salt is room name only (not secret); secrecy is the passphrase.
+    const salt = te.encode("pkm-life-chat-v1|" + room);
+    return crypto.subtle.deriveKey(
+      { name: "PBKDF2", salt, iterations: 210000, hash: "SHA-256" },
+      material,
+      { name: "AES-GCM", length: 256 },
+      false,
+      ["encrypt", "decrypt"]
+    );
+  }
+
+  async function encryptText(plaintext) {
+    const iv = crypto.getRandomValues(new Uint8Array(12));
+    const ct = await crypto.subtle.encrypt(
+      { name: "AES-GCM", iv },
+      key,
+      te.encode(plaintext)
+    );
+    return {
+      v: 1,
+      alg: "AES-GCM",
+      room: roomId,
+      nick: nick,
+      ts: Date.now(),
+      iv: b64(iv),
+      ct: b64(ct)
+    };
+  }
+
+  async function decryptPacket(packet) {
+    if (!packet || packet.v !== 1 || packet.alg !== "AES-GCM") {
+      throw new Error("密文格式无法识别");
+    }
+    const iv = fromB64(packet.iv);
+    const ct = fromB64(packet.ct);
+    const pt = await crypto.subtle.decrypt(
+      { name: "AES-GCM", iv },
+      key,
+      ct
+    );
+    return td.decode(pt);
+  }
+
+  function loadHistory() {
+    try {
+      const raw = localStorage.getItem(storageKey());
+      return raw ? JSON.parse(raw) : [];
+    } catch {
+      return [];
+    }
+  }
+
+  function saveHistory(list) {
+    localStorage.setItem(storageKey(), JSON.stringify(list.slice(-200)));
+  }
+
+  function appendBubble(packet, plaintext, mine) {
+    const div = document.createElement("div");
+    div.className = "msg " + (mine ? "mine" : "theirs");
+    const who = document.createElement("span");
+    who.className = "who";
+    who.textContent = (packet.nick || "匿名") + (mine ? "（我）" : "");
+    const body = document.createElement("div");
+    body.textContent = plaintext;
+    const time = document.createElement("span");
+    time.className = "time";
+    time.textContent = new Date(packet.ts || Date.now()).toLocaleString("zh-CN", { hour12: false });
+    div.append(who, body, time);
+    logEl.appendChild(div);
+    logEl.scrollTop = logEl.scrollHeight;
+  }
+
+  async function renderAll() {
+    logEl.innerHTML = "";
+    const list = loadHistory();
+    for (const packet of list) {
+      try {
+        const text = await decryptPacket(packet);
+        appendBubble(packet, text, packet.nick === nick);
+        lastPacket = packet;
+      } catch {
+        appendBubble(packet, "（无法解密：口令或数据不匹配）", false);
+      }
+    }
+  }
+
+  function persistAndBroadcast(packet, localOnly) {
+    const list = loadHistory();
+    list.push(packet);
+    saveHistory(list);
+    lastPacket = packet;
+    if (!localOnly && channel) {
+      channel.postMessage({ type: "chat", packet });
+    }
+  }
+
+  async function onIncoming(packet) {
+    if (!packet || packet.room !== roomId) return;
+    const list = loadHistory();
+    const dup = list.some((p) => p.ts === packet.ts && p.iv === packet.iv && p.ct === packet.ct);
+    if (!dup) {
+      list.push(packet);
+      saveHistory(list);
+    }
+    try {
+      const text = await decryptPacket(packet);
+      appendBubble(packet, text, packet.nick === nick);
+      lastPacket = packet;
+    } catch {
+      appendBubble(packet, "（无法解密）", false);
+    }
+  }
+
+  $("joinBtn").addEventListener("click", async () => {
+    nick = ($("nick").value || "").trim() || "访客";
+    const pass = $("pass").value || "";
+    roomId = (($("room").value || "pkm-chat").trim()) || "pkm-chat";
+    if (pass.length < 8) {
+      setStatus(gateStatus, "口令至少 8 个字符。", true);
+      return;
+    }
+    if (!window.crypto || !crypto.subtle) {
+      setStatus(gateStatus, "当前浏览器不支持 WebCrypto。", true);
+      return;
+    }
+    try {
+      key = await deriveKey(pass, roomId);
+      $("pass").value = "";
+      gate.classList.remove("active");
+      roomPanel.classList.add("active");
+      $("roomLabel").textContent = roomId;
+      $("nickLabel").textContent = nick;
+      if (channel) channel.close();
+      channel = new BroadcastChannel("pkm-chat-bus:" + roomId);
+      channel.onmessage = (ev) => {
+        if (ev.data && ev.data.type === "chat") onIncoming(ev.data.packet);
+      };
+      await renderAll();
+      setStatus(roomStatus, "密钥已派生。明文仅在内存中短暂出现；存储与同步的是密文。");
+    } catch (err) {
+      setStatus(gateStatus, "派生密钥失败：" + (err && err.message ? err.message : err), true);
+    }
+  });
+
+  $("leaveBtn").addEventListener("click", () => {
+    key = null;
+    if (channel) { channel.close(); channel = null; }
+    roomPanel.classList.remove("active");
+    gate.classList.add("active");
+    logEl.innerHTML = "";
+    setStatus(gateStatus, "已离开房间。口令未保存在本页。");
+  });
+
+  $("sendBtn").addEventListener("click", async () => {
+    const text = ($("draft").value || "").trim();
+    if (!text || !key) return;
+    try {
+      const packet = await encryptText(text);
+      $("draft").value = "";
+      persistAndBroadcast(packet, false);
+      appendBubble(packet, text, true);
+      $("blobBox").value = JSON.stringify(packet);
+      setStatus(roomStatus, "已加密发送（本机频道 + localStorage）。");
+    } catch (err) {
+      setStatus(roomStatus, "加密失败：" + (err && err.message ? err.message : err), true);
+    }
+  });
+
+  $("draft").addEventListener("keydown", (ev) => {
+    if (ev.key === "Enter" && !ev.shiftKey) {
+      ev.preventDefault();
+      $("sendBtn").click();
+    }
+  });
+
+  $("exportBtn").addEventListener("click", () => {
+    if (!lastPacket) {
+      setStatus(roomStatus, "还没有可导出的密文。", true);
+      return;
+    }
+    $("blobBox").value = JSON.stringify(lastPacket);
+    setStatus(roomStatus, "已填入最近一条密文，可复制给对方。");
+  });
+
+  $("importBtn").addEventListener("click", async () => {
+    const raw = ($("blobBox").value || "").trim();
+    if (!raw || !key) return;
+    try {
+      const packet = JSON.parse(raw);
+      await onIncoming(packet);
+      setStatus(roomStatus, "已导入并尝试解密。");
+    } catch (err) {
+      setStatus(roomStatus, "导入失败：" + (err && err.message ? err.message : err), true);
+    }
+  });
+
+  $("clearBtn").addEventListener("click", () => {
+    if (!roomId) return;
+    localStorage.removeItem(storageKey());
+    logEl.innerHTML = "";
+    lastPacket = null;
+    setStatus(roomStatus, "已清空本机该房间的密文记录。");
+  });
+})();
+  </script>
+</body>
+</html>

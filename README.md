@@ -1,39 +1,31 @@
 # Pkmlife
 
-这是 [pokeman](https://github.com/pokemanok) 的 GitHub Pages 个人主页。站点是纯静态页面（`index.html`），放在仓库根目录，不需要构建。
+[pokeman](https://github.com/pokemanok)（破壳漫）的 GitHub Pages 个人主页。纯静态，无构建步骤。
 
-线上地址：<https://pokemanok.github.io/Pkmlife/>
+- 站点：<https://pkm.life> · <https://pokemanok.github.io/Pkmlife/>
+- 加密聊天演示：<https://pkm.life/chat/> · <https://pokemanok.github.io/Pkmlife/chat/>
 
-## 修改内容
+## 内容
 
-直接编辑根目录的 `index.html`：
+- `index.html` — 中文个人主页与 **GBA 汉化作品**（木乃伊归来、终结者3、环游世界80天）
+- `chat/` — 浏览器端 AES-GCM 加密聊天演示（口令派生密钥；BroadcastChannel + localStorage；可导出/粘贴密文跨设备）
 
-- 名字现在是占位文字 `pokeman`
-- 「关于我」和页首简介都是占位文案
-- 「链接」里目前只有 GitHub：<https://github.com/pokemanok>
-- 「联系」同样是占位，可改成邮箱或其他方式
+## 加密聊天说明
 
-改完后提交到 `main` 分支即可。GitHub Pages 会从该分支的根目录重新发布。
+1. 双方约定同一口令与房间名，在 `/chat/` 进入。
+2. 明文只在本地加密前后短暂存在；写入存储与跨标签同步的是密文 JSON。
+3. **不会**把明文或口令放进 URL / query。
+4. 与助手对话：把密文 JSON 粘贴给助手，助手用同一口令解密后回复密文；或双方配置同一共享口令。
+5. GitHub Pages 无后端：跨设备请交换密文，或自行接 WebSocket/WebRTC（只传密文）。
 
 ## 本地预览
-
-用浏览器直接打开 `index.html`，或在仓库根目录运行：
 
 ```bash
 python3 -m http.server 8080
 ```
 
-然后访问 <http://localhost:8080>。
+打开 <http://localhost:8080> 与 <http://localhost:8080/chat/>。
 
-## 开启 GitHub Pages
+## Pages
 
-发布方式：**Deploy from a branch**，分支 `main`，文件夹 `/`（root）。
-
-当前仓库的 Pages **还没有打开**。用接口创建站点时返回 403（当前凭证没有 Pages 管理权限），所以需要在 GitHub 网页里手动开启：
-
-1. 打开仓库的 **Settings → Pages**。
-2. **Build and deployment** 里，Source 选择 **Deploy from a branch**。
-3. Branch 选择 `main`，文件夹选择 `/ (root)`。
-4. 保存后等待一两分钟，再访问 <https://pokemanok.github.io/Pkmlife/>。
-
-说明：免费账号的 GitHub Pages 只对公开仓库提供。如果这个仓库是私有的，需要先将仓库设为 Public，或使用支持私有 Pages 的方案，站点才会对外可访问。
+Source：**Deploy from a branch**，分支 `main`，目录 `/`（root）。自定义域见 `CNAME`（`pkm.life`）。

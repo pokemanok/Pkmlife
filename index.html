@@ -3,235 +3,603 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>pokeman</title>
-  <meta name="description" content="pokeman 的个人主页。">
+  <title>pokeman · 个人主页</title>
+  <meta name="description" content="pokeman 的个人主页 — GBA 汉化作品与静态站点。">
   <meta name="color-scheme" content="light dark">
-  <meta name="theme-color" content="#f4f1eb">
+  <meta name="theme-color" content="#f3efe8" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#12110f" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='16' fill='%23143f34'/%3E%3Ctext x='16' y='21.5' text-anchor='middle' font-family='Georgia,serif' font-size='16' fill='%23f6f1e8'%3EP%3C/text%3E%3C/svg%3E">
   <style>
     :root {
-      --bg: #f4f1eb;
-      --ink: #1f1c19;
-      --muted: #6f675f;
-      --line: #e4ddd3;
-      --accent: #2a6a52;
-      --accent-soft: #e5f0ea;
-      --shadow: 0 1px 0 rgba(31, 28, 25, 0.04);
+      --bg: #f3efe8;
+      --ink: #1c1916;
+      --muted: #5c564e;
+      --faint: #847b70;
+      --line: rgba(28, 25, 22, 0.12);
+      --accent: #0f6e56;
+      --accent-ink: #0c5946;
+      --warm: #9a4e24;
+      --card: rgba(255, 252, 247, 0.78);
+      --card-solid: #fffcf7;
+      --shadow: 0 16px 40px -28px rgba(28, 25, 22, 0.55);
+      --orb-a: rgba(15, 110, 86, 0.18);
+      --orb-b: rgba(194, 107, 58, 0.16);
+      --mark: #143f34;
+      --mark-ink: #f6f1e8;
+      --topbar: rgba(243, 239, 232, 0.82);
+      --badge-ok: #0f6e56;
+      --badge-ok-bg: rgba(15, 110, 86, 0.12);
+      --badge-soon: #9a4e24;
+      --badge-soon-bg: rgba(154, 78, 36, 0.12);
       color-scheme: light;
     }
 
     @media (prefers-color-scheme: dark) {
       :root {
-        --bg: #141311;
+        --bg: #12110f;
         --ink: #f4efe8;
-        --muted: #b3aaa0;
-        --line: #2c2926;
-        --accent: #8dceaf;
-        --accent-soft: #1c2b24;
-        --shadow: none;
+        --muted: #c4bbb1;
+        --faint: #9a9186;
+        --line: rgba(244, 239, 232, 0.14);
+        --accent: #8fd4be;
+        --accent-ink: #c5ecdf;
+        --warm: #f0b48a;
+        --card: rgba(255, 255, 255, 0.045);
+        --card-solid: #1c1a17;
+        --shadow: 0 16px 40px -24px rgba(0, 0, 0, 0.75);
+        --orb-a: rgba(143, 212, 190, 0.14);
+        --orb-b: rgba(240, 180, 138, 0.1);
+        --mark: #d7efe6;
+        --mark-ink: #10241c;
+        --topbar: rgba(18, 17, 15, 0.8);
+        --badge-ok: #8fd4be;
+        --badge-ok-bg: rgba(143, 212, 190, 0.14);
+        --badge-soon: #f0b48a;
+        --badge-soon-bg: rgba(240, 180, 138, 0.12);
         color-scheme: dark;
       }
     }
 
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
 
     body {
       margin: 0;
       min-height: 100vh;
-      background:
-        radial-gradient(1200px 480px at 50% -120px, var(--accent-soft), transparent 70%),
-        var(--bg);
+      background: var(--bg);
       color: var(--ink);
       font-family: "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
       font-size: 1.0625rem;
-      line-height: 1.7;
+      line-height: 1.75;
       text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
     }
 
-    a {
-      color: inherit;
-      text-underline-offset: 0.18em;
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      z-index: 0;
+      width: 46rem;
+      height: 46rem;
+      border-radius: 50%;
+      pointer-events: none;
+      filter: blur(28px);
     }
 
-    a:focus-visible {
+    body::before {
+      top: -20rem;
+      right: -14rem;
+      background: radial-gradient(circle, var(--orb-a), transparent 68%);
+      animation: drift 22s ease-in-out infinite alternate;
+    }
+
+    body::after {
+      bottom: -22rem;
+      left: -16rem;
+      background: radial-gradient(circle, var(--orb-b), transparent 68%);
+      animation: drift 28s ease-in-out infinite alternate-reverse;
+    }
+
+    @keyframes drift {
+      from { transform: translate3d(0, 0, 0); }
+      to { transform: translate3d(2.25rem, 1.4rem, 0); }
+    }
+
+    ::selection {
+      background: color-mix(in srgb, var(--accent) 30%, transparent);
+      color: var(--ink);
+    }
+
+    a:focus-visible,
+    .skip:focus {
       outline: 2px solid var(--accent);
       outline-offset: 3px;
-      border-radius: 4px;
+      border-radius: 6px;
     }
 
-    .page {
-      width: min(40rem, calc(100% - 2.5rem));
-      margin: 0 auto;
-      padding: 4.5rem 0 3.5rem;
+    .skip {
+      position: absolute;
+      left: 1rem;
+      top: -4rem;
+      z-index: 20;
+      padding: 0.45rem 0.75rem;
+      background: var(--ink);
+      color: var(--bg);
+      border-radius: 8px;
+      text-decoration: none;
     }
+
+    .skip:focus { top: 0.75rem; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      border-bottom: 1px solid var(--line);
+      background: var(--topbar);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .topbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      width: min(48rem, calc(100% - 2.5rem));
+      margin: 0 auto;
+      padding: 0.85rem 0;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .mark {
+      display: grid;
+      place-items: center;
+      width: 2.15rem;
+      height: 2.15rem;
+      border-radius: 50%;
+      background: var(--mark);
+      color: var(--mark-ink);
+      font-family: "Iowan Old Style", Palatino, "Palatino Linotype", "Songti SC", "Noto Serif SC", serif;
+      font-size: 1.05rem;
+      line-height: 1;
+      transition: transform 0.25s ease;
+    }
+
+    .brand:hover .mark { transform: rotate(-8deg) scale(1.04); }
+    .brand-name { font-weight: 600; letter-spacing: -0.02em; }
 
     .nav {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.35rem 1rem;
-      margin: 0 0 3.25rem;
+      gap: 0.15rem;
+      margin: 0;
       padding: 0;
       list-style: none;
-      font-size: 0.92rem;
-      color: var(--muted);
     }
 
     .nav a {
+      display: inline-block;
+      padding: 0.55rem 0.75rem;
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 0.92rem;
       text-decoration: none;
+      transition: color 0.2s ease, background-color 0.2s ease;
     }
 
     .nav a:hover {
       color: var(--ink);
+      background: color-mix(in srgb, var(--ink) 7%, transparent);
     }
 
-    header h1 {
-      margin: 0.35rem 0 0.9rem;
-      font-family: "Iowan Old Style", Palatino, "Palatino Linotype", "Songti SC", "Noto Serif SC", "STSong", serif;
-      font-size: clamp(3rem, 10vw, 4.75rem);
-      font-weight: 500;
-      letter-spacing: -0.03em;
-      line-height: 1.05;
+    .page {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      width: min(48rem, calc(100% - 2.5rem));
+      min-height: calc(100vh - 4.4rem);
+      margin: 0 auto;
+      padding: 4.25rem 0 2.25rem;
     }
+
+    .hero,
+    section { scroll-margin-top: 5.5rem; }
 
     .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
       margin: 0;
-      color: var(--accent);
-      font-size: 0.82rem;
-      letter-spacing: 0.14em;
+      color: var(--warm);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+    }
+
+    .kicker::before {
+      content: "";
+      width: 0.42rem;
+      height: 0.42rem;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    h1 {
+      margin: 0.85rem 0 0;
+      font-family: "Iowan Old Style", Palatino, "Palatino Linotype", "Songti SC", "Noto Serif SC", "STSong", serif;
+      font-size: clamp(2.8rem, 14vw, 5.75rem);
+      font-weight: 500;
+      letter-spacing: -0.045em;
+      line-height: 0.96;
+    }
+
+    h1::after {
+      content: "";
+      display: block;
+      width: 3rem;
+      height: 2px;
+      margin-top: 1.25rem;
+      background: linear-gradient(90deg, var(--accent), transparent);
+      transform-origin: left center;
+      animation: draw 0.8s ease 0.15s both;
+    }
+
+    @keyframes draw {
+      from { transform: scaleX(0); }
+      to { transform: scaleX(1); }
     }
 
     .bio {
-      max-width: 34rem;
-      margin: 0;
+      max-width: 36rem;
+      margin: 1.35rem 0 0;
       color: var(--muted);
-      font-size: 1.125rem;
+      font-size: 1.2rem;
+      line-height: 1.7;
     }
 
     section {
       margin-top: 2.75rem;
-      padding-top: 1.75rem;
+      padding-top: 1.65rem;
       border-top: 1px solid var(--line);
     }
 
+    section:target h2 { color: var(--accent-ink); }
+
     h2 {
-      margin: 0 0 0.75rem;
-      font-size: 0.82rem;
+      display: flex;
+      align-items: baseline;
+      gap: 0.75rem;
+      margin: 0 0 0.85rem;
+      color: var(--muted);
+      font-size: 0.78rem;
       font-weight: 600;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.16em;
+    }
+
+    h2 .idx {
+      color: var(--accent);
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.04em;
+    }
+
+    section > p {
+      margin: 0;
+      max-width: 40rem;
       color: var(--muted);
     }
 
-    section p {
+    section:last-of-type { margin-bottom: 2.75rem; }
+
+    p a {
+      color: var(--accent-ink);
+      text-decoration-line: underline;
+      text-decoration-color: color-mix(in srgb, var(--accent) 40%, transparent);
+      text-decoration-thickness: 1px;
+      text-underline-offset: 0.22em;
+      transition: color 0.2s ease, text-decoration-color 0.2s ease;
+    }
+
+    p a:hover {
+      color: var(--accent);
+      text-decoration-color: currentColor;
+    }
+
+    .portfolio {
+      display: grid;
+      gap: 1rem;
+      margin: 1.15rem 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .card {
+      padding: 1.2rem 1.25rem 1.25rem;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: var(--card);
+      box-shadow: var(--shadow);
+      transition: transform 0.22s ease, border-color 0.22s ease, background-color 0.22s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      border-color: color-mix(in srgb, var(--accent) 45%, var(--line));
+      background: var(--card-solid);
+    }
+
+    .card-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 0.65rem 1rem;
+      margin-bottom: 0.55rem;
+    }
+
+    .card h3 {
       margin: 0;
+      font-size: 1.12rem;
+      font-weight: 650;
+      letter-spacing: -0.01em;
+      line-height: 1.35;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      flex: none;
+      padding: 0.28rem 0.65rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+
+    .badge.released {
+      color: var(--badge-ok);
+      background: var(--badge-ok-bg);
+    }
+
+    .badge.recent {
+      color: var(--badge-soon);
+      background: var(--badge-soon-bg);
+    }
+
+    .meta {
+      margin: 0 0 0.55rem;
+      color: var(--faint);
+      font-size: 0.9rem;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.98rem;
+      line-height: 1.65;
     }
 
     .links {
-      margin: 0.25rem 0 0;
+      margin: 0.35rem 0 0;
       padding: 0;
       list-style: none;
     }
 
     .links a {
       display: flex;
-      align-items: baseline;
+      align-items: center;
       justify-content: space-between;
       gap: 1rem;
-      padding: 0.85rem 0;
-      border-bottom: 1px solid var(--line);
-      text-decoration: none;
+      margin-top: 0.85rem;
+      padding: 1rem 1.05rem 1rem 1.15rem;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: var(--card);
       box-shadow: var(--shadow);
+      color: inherit;
+      text-decoration: none;
+      transition: transform 0.22s ease, border-color 0.22s ease, background-color 0.22s ease;
     }
 
-    .links a:hover .name {
-      color: var(--accent);
+    .links a:hover {
+      transform: translateY(-2px);
+      border-color: color-mix(in srgb, var(--accent) 50%, var(--line));
+      background: var(--card-solid);
     }
 
-    .links .name {
-      font-weight: 600;
+    .link-main {
+      display: flex;
+      flex-direction: column;
+      gap: 0.1rem;
+      min-width: 0;
     }
 
+    .links .name { font-weight: 600; }
     .links .url {
-      color: var(--muted);
+      color: var(--faint);
       font-size: 0.92rem;
       overflow-wrap: anywhere;
     }
 
-    .links .url::after {
-      content: " ↗";
-      font-size: 0.85em;
+    .arrow {
+      display: grid;
+      flex: none;
+      place-items: center;
+      width: 2.15rem;
+      height: 2.15rem;
+      border-radius: 50%;
+      background: color-mix(in srgb, var(--accent) 14%, transparent);
+      color: var(--accent-ink);
+      transition: transform 0.22s ease, background-color 0.22s ease;
+    }
+
+    .links a:hover .arrow {
+      transform: translate(3px, -3px);
+      background: color-mix(in srgb, var(--accent) 24%, transparent);
     }
 
     footer {
-      margin-top: 3.25rem;
-      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: auto;
+      padding-top: 1.4rem;
+      border-top: 1px solid var(--line);
+      color: var(--faint);
       font-size: 0.88rem;
     }
 
-    @media (max-width: 640px) {
-      .page {
-        width: min(40rem, calc(100% - 2rem));
-        padding-top: 2.75rem;
-      }
+    .rise { animation: rise 0.7s ease both; }
+    .page > .rise:nth-child(1) { animation-delay: 0.04s; }
+    .page > .rise:nth-child(2) { animation-delay: 0.12s; }
+    .page > .rise:nth-child(3) { animation-delay: 0.2s; }
+    .page > .rise:nth-child(4) { animation-delay: 0.28s; }
+    .page > .rise:nth-child(5) { animation-delay: 0.36s; }
+    .page > .rise:nth-child(6) { animation-delay: 0.44s; }
 
-      .links a {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.15rem;
-      }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: none; }
+    }
+
+    @media (max-width: 640px) {
+      .topbar-inner,
+      .page { width: min(48rem, calc(100% - 1.5rem)); }
+      .page { padding-top: 2.5rem; }
+      .nav a { padding: 0.45rem 0.55rem; font-size: 0.86rem; }
+      .card { padding: 1.05rem 1.05rem 1.1rem; }
+      .links a { align-items: flex-start; }
+      footer { flex-direction: column; gap: 0.25rem; }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      html {
-        scroll-behavior: auto;
+      html { scroll-behavior: auto; }
+      *,
+      *::before,
+      *::after {
+        animation: none !important;
+        transition: none !important;
       }
+      .card:hover,
+      .links a:hover,
+      .links a:hover .arrow,
+      .brand:hover .mark { transform: none; }
     }
   </style>
 </head>
 <body>
-  <main class="page">
-    <nav aria-label="页内导航">
-      <ul class="nav">
-        <li><a href="#about">关于我</a></li>
-        <li><a href="#links">链接</a></li>
-        <li><a href="#contact">联系</a></li>
-      </ul>
-    </nav>
+  <a class="skip" href="#content">跳到内容</a>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="#top">
+        <span class="mark" aria-hidden="true">P</span>
+        <span class="brand-name">pokeman</span>
+      </a>
+      <nav aria-label="页内导航">
+        <ul class="nav">
+          <li><a href="#about">关于我</a></li>
+          <li><a href="#gba">GBA 汉化</a></li>
+          <li><a href="#links">链接</a></li>
+          <li><a href="chat/">加密聊天</a></li>
+          <li><a href="#contact">联系</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
-    <header>
+  <main class="page" id="top">
+    <header class="hero rise" id="content">
       <p class="kicker">个人主页</p>
       <h1>pokeman</h1>
-      <p class="bio">把这里换成一句短介绍。例如你在做什么，或者你希望别人如何认识你。</p>
+      <p class="bio">破壳漫 — 做 GBA 游戏简体中文个人汉化，并把作品与实验放在这里。</p>
     </header>
 
-    <section id="about" aria-labelledby="about-title">
-      <h2 id="about-title">关于我</h2>
-      <p>这里可以多写几句：兴趣、近况、正在做的事。这是占位文字，请换成你自己的内容。</p>
+    <section class="rise" id="about" aria-labelledby="about-title">
+      <h2 id="about-title"><span class="idx">01</span>关于我</h2>
+      <p>我是 pokeman（破壳漫），主要做 GBA 游戏的简体中文个人汉化：整理文本、点阵字库与菜单，尽量让中文在主机上可读、可玩。本站是纯静态 GitHub Pages 主页。</p>
     </section>
 
-    <section id="links" aria-labelledby="links-title">
-      <h2 id="links-title">链接</h2>
+    <section class="rise" id="gba" aria-labelledby="gba-title">
+      <h2 id="gba-title"><span class="idx">02</span>GBA 汉化作品</h2>
+      <p>以下均为破壳漫个人汉化。正式发布与「近期完成」已分开标注；不含未列出的作品。</p>
+      <ul class="portfolio">
+        <li class="card">
+          <div class="card-head">
+            <h3>《木乃伊归来》(The Mummy)</h3>
+            <span class="badge released">正式已发布</span>
+          </div>
+          <p class="meta">破壳漫个人汉化</p>
+          <p>86 段对话 / 旁白 / 提示简体中文；标题 ENGLISH →「中文」；主菜单 / 制作名单仍为预渲染英文图。</p>
+        </li>
+        <li class="card">
+          <div class="card-head">
+            <h3>《终结者3：机器的崛起》</h3>
+            <span class="badge released">正式已发布</span>
+          </div>
+          <p class="meta">破壳漫个人汉化 · v1.0（2026-10-05）</p>
+          <p>384 条剧情 / 菜单中文；10×10 点阵字库；语言菜单署名。</p>
+        </li>
+        <li class="card">
+          <div class="card-head">
+            <h3>《环游世界80天》</h3>
+            <span class="badge recent">近期完成</span>
+          </div>
+          <p class="meta">破壳漫个人汉化 · 中文版</p>
+          <p>近期完成中文版（约 322 条文本）。尚未标为正式发布。</p>
+        </li>
+      </ul>
+    </section>
+
+    <section class="rise" id="links" aria-labelledby="links-title">
+      <h2 id="links-title"><span class="idx">03</span>链接</h2>
       <ul class="links">
         <li>
           <a href="https://github.com/pokemanok">
-            <span class="name">GitHub</span>
-            <span class="url">github.com/pokemanok</span>
+            <span class="link-main">
+              <span class="name">GitHub</span>
+              <span class="url">github.com/pokemanok</span>
+            </span>
+            <span class="arrow" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M4.5 11.5L11.5 4.5M11.5 4.5H6.5M11.5 4.5V9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </a>
+        </li>
+        <li>
+          <a href="chat/">
+            <span class="link-main">
+              <span class="name">加密聊天室</span>
+              <span class="url">/chat/ · 浏览器端加密演示</span>
+            </span>
+            <span class="arrow" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M4.5 11.5L11.5 4.5M11.5 4.5H6.5M11.5 4.5V9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
           </a>
         </li>
       </ul>
     </section>
 
-    <section id="contact" aria-labelledby="contact-title">
-      <h2 id="contact-title">联系</h2>
-      <p>欢迎通过 <a href="https://github.com/pokemanok">GitHub</a> 与我联系。若要留下邮箱或其他方式，把这句话换掉即可。</p>
+    <section class="rise" id="contact" aria-labelledby="contact-title">
+      <h2 id="contact-title"><span class="idx">04</span>联系</h2>
+      <p>欢迎通过 <a href="https://github.com/pokemanok">GitHub</a> 与我联系。加密聊天演示见 <a href="chat/">/chat/</a>（需双方约定同一口令；纯静态托管有局限，详见该页说明）。</p>
     </section>
 
-    <footer>
-      <p>pokeman</p>
+    <footer class="rise">
+      <span>pokeman · 破壳漫</span>
+      <span>pkm.life</span>
     </footer>
   </main>
 </body>
