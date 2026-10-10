@@ -1,13 +1,13 @@
 # Pkmlife
 
-[pokeman](https://github.com/pokemanok)（破壳漫）的 GitHub Pages 个人主页。纯静态，无构建步骤。
+[pokeman](https://github.com/pokemanok)（破壳漫）的 GitHub Pages 个人主页。纯静态，无构建步骤。Windows XP / IE 怀旧风格。
 
 - 站点：<https://pkm.life> · <https://pokemanok.github.io/Pkmlife/>
 - 加密聊天演示：<https://pkm.life/chat/> · <https://pokemanok.github.io/Pkmlife/chat/>
 
 ## 内容
 
-- `index.html` — 中文个人主页与 **GBA 汉化作品**（木乃伊归来、终结者3、环游世界80天）
+- `index.html` — 中文个人主页（XP 窗口 chrome）、**GBA 汉化作品**（木乃伊归来、终结者3、环游世界80天）、Bilibili 视频嵌入
 - `chat/` — 浏览器端 AES-GCM 加密聊天演示（口令派生密钥；BroadcastChannel + localStorage；可导出/粘贴密文跨设备）
 
 ## 加密聊天说明

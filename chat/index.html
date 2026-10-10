@@ -5,242 +5,272 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>加密聊天 · pokeman</title>
   <meta name="description" content="浏览器端 AES-GCM 加密聊天演示（纯静态托管）。">
-  <meta name="color-scheme" content="light dark">
-  <meta name="theme-color" content="#f3efe8" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#12110f" media="(prefers-color-scheme: dark)">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='16' fill='%23143f34'/%3E%3Ctext x='16' y='21.5' text-anchor='middle' font-family='Georgia,serif' font-size='16' fill='%23f6f1e8'%3EP%3C/text%3E%3C/svg%3E">
+  <meta name="theme-color" content="#0A246A">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='2' fill='%230A246A'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='Tahoma,sans-serif' font-size='14' font-weight='bold' fill='%23fff'%3EP%3C/text%3E%3C/svg%3E">
   <style>
     :root {
-      --bg: #f3efe8;
-      --ink: #1c1916;
-      --muted: #5c564e;
-      --faint: #847b70;
-      --line: rgba(28, 25, 22, 0.12);
-      --accent: #0f6e56;
-      --accent-ink: #0c5946;
-      --warm: #9a4e24;
-      --card: #fffcf7;
-      --mine: rgba(15, 110, 86, 0.12);
-      --theirs: rgba(28, 25, 22, 0.06);
+      --beige: #ECE9D8;
+      --beige-face: #F1EFE2;
+      --ink: #000;
+      --muted: #404040;
+      --faint: #666;
+      --line: #aca899;
+      --accent: #1664D9;
+      --accent-ink: #0A246A;
+      --window-border: #0054E3;
+      --card: #fff;
+      --mine: #C6D8F0;
+      --theirs: #E8E4D8;
       --danger: #a33b2b;
-      --topbar: rgba(243, 239, 232, 0.9);
-      color-scheme: light;
-    }
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg: #12110f;
-        --ink: #f4efe8;
-        --muted: #c4bbb1;
-        --faint: #9a9186;
-        --line: rgba(244, 239, 232, 0.14);
-        --accent: #8fd4be;
-        --accent-ink: #c5ecdf;
-        --warm: #f0b48a;
-        --card: #1c1a17;
-        --mine: rgba(143, 212, 190, 0.16);
-        --theirs: rgba(255, 255, 255, 0.06);
-        --danger: #f0a090;
-        --topbar: rgba(18, 17, 15, 0.9);
-        color-scheme: dark;
-      }
+      --start-green: #3C913F;
     }
     * { box-sizing: border-box; }
     body {
       margin: 0;
       min-height: 100vh;
-      background: var(--bg);
+      padding: 16px 12px 48px;
+      background: #3A6EA5;
+      background-image:
+        linear-gradient(180deg, rgba(90, 160, 230, 0.45) 0%, transparent 40%),
+        linear-gradient(180deg, #5BA0E6 0%, #3A6EA5 35%, #245D9C 100%);
       color: var(--ink);
-      font-family: "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
-      font-size: 1rem;
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
+      font-family: "Tahoma", "MS Sans Serif", "Microsoft YaHei", "PingFang SC", "Noto Sans SC", sans-serif;
+      font-size: 13px;
+      line-height: 1.55;
     }
-    a { color: var(--accent-ink); }
+    a { color: #0000EE; }
+    a:visited { color: #551A8B; }
     a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible {
-      outline: 2px solid var(--accent);
+      outline: 1px dotted #000;
       outline-offset: 2px;
     }
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 5;
+    .window {
+      width: min(40rem, 100%);
+      margin: 0 auto;
+      border: 3px solid var(--window-border);
+      border-radius: 8px 8px 0 0;
+      background: var(--beige);
+      box-shadow: inset 1px 1px 0 #fff, 4px 4px 0 rgba(0,0,0,0.25);
+    }
+    .titlebar {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      padding: 0.85rem 1.25rem;
-      border-bottom: 1px solid var(--line);
-      background: var(--topbar);
-      backdrop-filter: blur(14px);
+      gap: 8px;
+      height: 30px;
+      padding: 0 4px 0 8px;
+      background: linear-gradient(180deg, #0A246A 0%, #245EDC 20%, #3A8CF0 55%, #1664D9 100%);
+      border-radius: 5px 5px 0 0;
+      color: #fff;
+      font-weight: 700;
+      font-size: 13px;
+      text-shadow: 1px 1px 1px rgba(0,0,0,0.45);
     }
-    .brand { color: inherit; text-decoration: none; font-weight: 600; }
-    .wrap {
-      width: min(40rem, calc(100% - 1.5rem));
-      margin: 0 auto;
-      padding: 1.5rem 0 2.5rem;
+    .titlebar a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+    }
+    .titlebar a:visited { color: #fff; }
+    .titlebar-text { flex: 1; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+    .titlebar-controls { display: flex; gap: 2px; }
+    .tb-btn {
+      width: 21px; height: 21px;
+      border: 1px solid #003c74;
+      border-radius: 3px;
+      background: linear-gradient(180deg, #3C8CF0, #1664D9);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 19px;
+      text-align: center;
+      box-shadow: inset 1px 1px 0 rgba(255,255,255,0.45);
+    }
+    .tb-btn.close { background: linear-gradient(180deg, #E07050, #C04020); }
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 8px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(180deg, #F1EFE2, #ECE9D8);
+    }
+    .pill {
+      display: inline-flex;
+      padding: 2px 8px;
+      border: 1px solid #0A246A;
+      background: #C6D8F0;
+      color: #0A246A;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .back {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 10px;
+      border: 1px solid;
+      border-color: #fff #808080 #808080 #fff;
+      background: var(--beige);
+      color: #000;
+      text-decoration: none;
+      font-size: 12px;
+    }
+    .back:visited { color: #000; }
+    .back:hover { background: #316ac5; color: #fff; border-color: #316ac5; }
+    .client {
+      padding: 14px 14px 18px;
+      background: var(--beige-face);
     }
     h1 {
-      margin: 0 0 0.4rem;
-      font-family: "Iowan Old Style", Palatino, "Songti SC", "Noto Serif SC", serif;
-      font-size: clamp(1.6rem, 6vw, 2.2rem);
-      font-weight: 500;
-      letter-spacing: -0.03em;
+      margin: 0 0 6px;
+      font-size: 20px;
+      color: #0A246A;
     }
-    .lead { margin: 0 0 1.25rem; color: var(--muted); }
+    .lead { margin: 0 0 12px; color: #333; }
     .note {
-      margin: 0 0 1.25rem;
-      padding: 0.9rem 1rem;
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      background: var(--card);
-      color: var(--muted);
-      font-size: 0.92rem;
+      margin: 0 0 12px;
+      padding: 8px 10px;
+      border: 2px solid;
+      border-color: #808080 #fff #fff #808080;
+      background: #fffbe6;
+      color: #333;
+      font-size: 12px;
     }
-    .note strong { color: var(--ink); }
+    .note strong { color: #000; }
     .panel {
       display: none;
       flex-direction: column;
-      gap: 0.85rem;
-      padding: 1.15rem;
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      background: var(--card);
+      gap: 8px;
+      padding: 10px;
+      border: 2px solid;
+      border-color: #fff #808080 #808080 #fff;
+      background: #fff;
     }
     .panel.active { display: flex; }
     label {
       display: flex;
       flex-direction: column;
-      gap: 0.35rem;
-      font-size: 0.88rem;
-      font-weight: 600;
-      color: var(--muted);
+      gap: 3px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #404040;
     }
-    input, textarea, button {
-      font: inherit;
-    }
+    input, textarea, button { font: inherit; }
     input, textarea {
       width: 100%;
-      padding: 0.7rem 0.85rem;
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      background: var(--bg);
-      color: var(--ink);
+      padding: 5px 7px;
+      border: 2px solid;
+      border-color: #808080 #fff #fff #808080;
+      background: #fff;
+      color: #000;
+      border-radius: 0;
     }
     textarea { min-height: 5.5rem; resize: vertical; }
-    .row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.55rem;
-    }
+    .row { display: flex; flex-wrap: wrap; gap: 6px; }
     button {
       cursor: pointer;
-      padding: 0.65rem 1rem;
-      border: 1px solid transparent;
-      border-radius: 999px;
-      background: var(--accent);
+      padding: 5px 12px;
+      border: 1px solid;
+      border-color: #fff #003c74 #003c74 #fff;
+      border-radius: 3px;
+      background: linear-gradient(180deg, #3C8CF0, #1664D9);
       color: #fff;
-      font-weight: 600;
-    }
-    @media (prefers-color-scheme: dark) {
-      button { color: #10241c; }
+      font-weight: 700;
+      text-shadow: 0 1px 0 rgba(0,0,0,0.3);
     }
     button.secondary {
-      background: transparent;
-      border-color: var(--line);
-      color: var(--ink);
+      background: linear-gradient(180deg, #F1EFE2, #D4D0C8);
+      color: #000;
+      border-color: #fff #808080 #808080 #fff;
+      text-shadow: none;
     }
     button:disabled { opacity: 0.5; cursor: not-allowed; }
-    .status {
-      margin: 0;
-      color: var(--faint);
-      font-size: 0.86rem;
-    }
+    .status { margin: 0; color: var(--faint); font-size: 12px; }
     .status.err { color: var(--danger); }
     .room-meta {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.5rem 1rem;
+      gap: 6px 10px;
       align-items: center;
       justify-content: space-between;
-      font-size: 0.88rem;
-      color: var(--muted);
-    }
-    .pill {
-      display: inline-flex;
-      padding: 0.2rem 0.55rem;
-      border-radius: 999px;
-      background: color-mix(in srgb, var(--accent) 14%, transparent);
-      color: var(--accent-ink);
-      font-size: 0.78rem;
-      font-weight: 600;
+      font-size: 12px;
+      color: #333;
     }
     #log {
       display: flex;
       flex-direction: column;
-      gap: 0.55rem;
+      gap: 6px;
       min-height: 16rem;
       max-height: min(52vh, 28rem);
       overflow: auto;
-      padding: 0.75rem;
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      background: var(--bg);
+      padding: 8px;
+      border: 2px solid;
+      border-color: #808080 #fff #fff #808080;
+      background: #fff;
     }
     .msg {
       max-width: 88%;
-      padding: 0.55rem 0.75rem;
-      border-radius: 14px;
+      padding: 5px 8px;
+      border: 1px solid #aca899;
       word-break: break-word;
     }
-    .msg.mine {
-      align-self: flex-end;
-      background: var(--mine);
-    }
-    .msg.theirs {
-      align-self: flex-start;
-      background: var(--theirs);
-    }
+    .msg.mine { align-self: flex-end; background: var(--mine); }
+    .msg.theirs { align-self: flex-start; background: var(--theirs); }
     .msg .who {
       display: block;
-      margin-bottom: 0.15rem;
+      margin-bottom: 2px;
       color: var(--faint);
-      font-size: 0.75rem;
+      font-size: 11px;
     }
     .msg .time {
       display: block;
-      margin-top: 0.25rem;
+      margin-top: 3px;
       color: var(--faint);
-      font-size: 0.72rem;
+      font-size: 10px;
       text-align: right;
     }
     .composer {
       display: grid;
       grid-template-columns: 1fr auto;
-      gap: 0.55rem;
+      gap: 6px;
       align-items: end;
     }
     .composer textarea { min-height: 3.2rem; }
     details {
-      margin-top: 0.25rem;
+      margin-top: 4px;
       border-top: 1px solid var(--line);
-      padding-top: 0.85rem;
+      padding-top: 8px;
     }
     details summary {
       cursor: pointer;
-      font-weight: 600;
-      color: var(--muted);
+      font-weight: 700;
+      color: #404040;
     }
     code, .mono {
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      font-size: 0.86em;
+      font-family: "Courier New", ui-monospace, Menlo, Consolas, monospace;
+      font-size: 0.9em;
     }
     .ciphertext {
       width: 100%;
       min-height: 4.5rem;
-      margin-top: 0.5rem;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      font-size: 0.78rem;
+      margin-top: 6px;
+      font-family: "Courier New", ui-monospace, Menlo, Consolas, monospace;
+      font-size: 11px;
     }
+    .statusbar {
+      display: flex;
+      border-top: 1px solid var(--line);
+      background: var(--beige);
+      font-size: 11px;
+      color: #404040;
+    }
+    .statusbar > span {
+      padding: 3px 8px;
+      border-right: 1px solid var(--line);
+      border-left: 1px solid #fff;
+    }
+    .statusbar > span:last-child { margin-left: auto; border-right: none; }
     @media (max-width: 520px) {
       .composer { grid-template-columns: 1fr; }
       .composer button { width: 100%; }
@@ -248,71 +278,86 @@
   </style>
 </head>
 <body>
-  <header class="topbar">
-    <a class="brand" href="../">← pokeman</a>
-    <span class="pill">AES-GCM · 客户端加密</span>
-  </header>
-
-  <main class="wrap">
-    <h1>加密聊天室</h1>
-    <p class="lead">口令只留在本机浏览器，明文不会写入 URL。消息先用 WebCrypto AES-GCM 加密，再本地同步或导出密文。</p>
-
-    <div class="note">
-      <strong>纯静态托管的局限：</strong>GitHub Pages 没有实时后端。本页默认用 <span class="mono">BroadcastChannel</span> + <span class="mono">localStorage</span>，适合同一浏览器多标签演示。跨设备请约定同一口令，用下方「导出 / 粘贴密文」交换；或自行接入公共 WebSocket / WebRTC 信令（仅传输密文）。与助手对话时：双方使用同一口令，你发送密文包，助手用相同口令解密后回复密文包。
+  <div class="window" role="region" aria-label="加密聊天">
+    <div class="titlebar">
+      <a href="../">← pokeman</a>
+      <span class="titlebar-text">加密聊天室 — Microsoft Internet Explorer</span>
+      <div class="titlebar-controls" aria-hidden="true">
+        <span class="tb-btn">_</span>
+        <span class="tb-btn">□</span>
+        <a class="tb-btn close" href="../" title="关闭">×</a>
+      </div>
     </div>
+    <div class="toolbar">
+      <a class="back" href="../">« 返回主页</a>
+      <span class="pill">AES-GCM · 客户端加密</span>
+    </div>
+    <main class="client">
+      <h1>加密聊天室</h1>
+      <p class="lead">口令只留在本机浏览器，明文不会写入 URL。消息先用 WebCrypto AES-GCM 加密，再本地同步或导出密文。</p>
 
-    <section id="gate" class="panel active" aria-labelledby="gate-title">
-      <h2 id="gate-title" style="margin:0;font-size:1.05rem;">进入房间</h2>
-      <label>
-        显示名称
-        <input id="nick" type="text" maxlength="32" placeholder="例如：破壳漫" autocomplete="nickname">
-      </label>
-      <label>
-        共享口令（不会出现在地址栏）
-        <input id="pass" type="password" maxlength="256" placeholder="双方约定的口令" autocomplete="off">
-      </label>
-      <label>
-        房间名（用于本机频道隔离，可随意）
-        <input id="room" type="text" maxlength="64" placeholder="默认：pkm-chat" value="pkm-chat" autocomplete="off">
-      </label>
-      <div class="row">
-        <button type="button" id="joinBtn">进入并派生密钥</button>
+      <div class="note">
+        <strong>纯静态托管的局限：</strong>GitHub Pages 没有实时后端。本页默认用 <span class="mono">BroadcastChannel</span> + <span class="mono">localStorage</span>，适合同一浏览器多标签演示。跨设备请约定同一口令，用下方「导出 / 粘贴密文」交换；或自行接入公共 WebSocket / WebRTC 信令（仅传输密文）。与助手对话时：双方使用同一口令，你发送密文包，助手用相同口令解密后回复密文包。
       </div>
-      <p class="status" id="gateStatus" role="status"></p>
-    </section>
 
-    <section id="roomPanel" class="panel" aria-labelledby="room-title">
-      <div class="room-meta">
-        <div>
-          <strong id="room-title">房间</strong>
-          <span id="roomLabel"></span>
-          · <span id="nickLabel"></span>
-        </div>
-        <button type="button" class="secondary" id="leaveBtn">离开</button>
-      </div>
-      <p class="status" id="roomStatus">已就绪。同浏览器其他标签页会即时同步密文。</p>
-      <div id="log" aria-live="polite"></div>
-      <div class="composer">
-        <label style="margin:0;">
-          消息（发送前加密）
-          <textarea id="draft" maxlength="4000" placeholder="输入明文，点击发送后只会保存/同步密文"></textarea>
+      <section id="gate" class="panel active" aria-labelledby="gate-title">
+        <h2 id="gate-title" style="margin:0;font-size:14px;">进入房间</h2>
+        <label>
+          显示名称
+          <input id="nick" type="text" maxlength="32" placeholder="例如：破壳漫" autocomplete="nickname">
         </label>
-        <button type="button" id="sendBtn">发送</button>
-      </div>
-      <details>
-        <summary>跨设备 / 与助手交换密文</summary>
-        <p class="status" style="margin-top:0.65rem;">复制下方最新一条密文 JSON，粘贴给对方或助手；对方用同一口令导入即可解密。勿把口令或明文放进 URL。</p>
+        <label>
+          共享口令（不会出现在地址栏）
+          <input id="pass" type="password" maxlength="256" placeholder="双方约定的口令" autocomplete="off">
+        </label>
+        <label>
+          房间名（用于本机频道隔离，可随意）
+          <input id="room" type="text" maxlength="64" placeholder="默认：pkm-chat" value="pkm-chat" autocomplete="off">
+        </label>
         <div class="row">
-          <button type="button" class="secondary" id="exportBtn">导出最近密文</button>
-          <button type="button" class="secondary" id="importBtn">导入密文</button>
-          <button type="button" class="secondary" id="clearBtn">清空本地记录</button>
+          <button type="button" id="joinBtn">进入并派生密钥</button>
         </div>
-        <textarea id="blobBox" class="ciphertext" placeholder='{"v":1,"alg":"AES-GCM",...}' spellcheck="false"></textarea>
-      </details>
-    </section>
-  </main>
+        <p class="status" id="gateStatus" role="status"></p>
+      </section>
 
-  <script>
+      <section id="roomPanel" class="panel" aria-labelledby="room-title">
+        <div class="room-meta">
+          <div>
+            <strong id="room-title">房间</strong>
+            <span id="roomLabel"></span>
+            · <span id="nickLabel"></span>
+          </div>
+          <button type="button" class="secondary" id="leaveBtn">离开</button>
+        </div>
+        <p class="status" id="roomStatus">已就绪。同浏览器其他标签页会即时同步密文。</p>
+        <div id="log" aria-live="polite"></div>
+        <div class="composer">
+          <label style="margin:0;">
+            消息（发送前加密）
+            <textarea id="draft" maxlength="4000" placeholder="输入明文，点击发送后只会保存/同步密文"></textarea>
+          </label>
+          <button type="button" id="sendBtn">发送</button>
+        </div>
+        <details>
+          <summary>跨设备 / 与助手交换密文</summary>
+          <p class="status" style="margin-top:0.65rem;">复制下方最新一条密文 JSON，粘贴给对方或助手；对方用同一口令导入即可解密。勿把口令或明文放进 URL。</p>
+          <div class="row">
+            <button type="button" class="secondary" id="exportBtn">导出最近密文</button>
+            <button type="button" class="secondary" id="importBtn">导入密文</button>
+            <button type="button" class="secondary" id="clearBtn">清空本地记录</button>
+          </div>
+          <textarea id="blobBox" class="ciphertext" placeholder='{"v":1,"alg":"AES-GCM",...}' spellcheck="false"></textarea>
+        </details>
+      </section>
+    </main>
+    <div class="statusbar" aria-hidden="true">
+      <span>完成</span>
+      <span>Internet</span>
+      <span>/chat/</span>
+    </div>
+  </div>
+
+<script>
 (function () {
   "use strict";
 

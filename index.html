@@ -3,61 +3,36 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>pokeman · 个人主页</title>
-  <meta name="description" content="pokeman 的个人主页 — GBA 汉化作品与静态站点。">
-  <meta name="color-scheme" content="light dark">
-  <meta name="theme-color" content="#f3efe8" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#12110f" media="(prefers-color-scheme: dark)">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='16' fill='%23143f34'/%3E%3Ctext x='16' y='21.5' text-anchor='middle' font-family='Georgia,serif' font-size='16' fill='%23f6f1e8'%3EP%3C/text%3E%3C/svg%3E">
+  <title>pokeman · 个人主页 — Windows XP 风格</title>
+  <meta name="description" content="pokeman（破壳漫）的个人主页 — GBA 游戏简体中文个人汉化作品。">
+  <meta name="theme-color" content="#0A246A">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='2' fill='%230A246A'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='Tahoma,sans-serif' font-size='14' font-weight='bold' fill='%23fff'%3EP%3C/text%3E%3C/svg%3E">
   <style>
     :root {
-      --bg: #f3efe8;
-      --ink: #1c1916;
-      --muted: #5c564e;
-      --faint: #847b70;
-      --line: rgba(28, 25, 22, 0.12);
-      --accent: #0f6e56;
-      --accent-ink: #0c5946;
-      --warm: #9a4e24;
-      --card: rgba(255, 252, 247, 0.78);
-      --card-solid: #fffcf7;
-      --shadow: 0 16px 40px -28px rgba(28, 25, 22, 0.55);
-      --orb-a: rgba(15, 110, 86, 0.18);
-      --orb-b: rgba(194, 107, 58, 0.16);
-      --mark: #143f34;
-      --mark-ink: #f6f1e8;
-      --topbar: rgba(243, 239, 232, 0.82);
-      --badge-ok: #0f6e56;
-      --badge-ok-bg: rgba(15, 110, 86, 0.12);
-      --badge-soon: #9a4e24;
-      --badge-soon-bg: rgba(154, 78, 36, 0.12);
-      color-scheme: light;
-    }
-
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg: #12110f;
-        --ink: #f4efe8;
-        --muted: #c4bbb1;
-        --faint: #9a9186;
-        --line: rgba(244, 239, 232, 0.14);
-        --accent: #8fd4be;
-        --accent-ink: #c5ecdf;
-        --warm: #f0b48a;
-        --card: rgba(255, 255, 255, 0.045);
-        --card-solid: #1c1a17;
-        --shadow: 0 16px 40px -24px rgba(0, 0, 0, 0.75);
-        --orb-a: rgba(143, 212, 190, 0.14);
-        --orb-b: rgba(240, 180, 138, 0.1);
-        --mark: #d7efe6;
-        --mark-ink: #10241c;
-        --topbar: rgba(18, 17, 15, 0.8);
-        --badge-ok: #8fd4be;
-        --badge-ok-bg: rgba(143, 212, 190, 0.14);
-        --badge-soon: #f0b48a;
-        --badge-soon-bg: rgba(240, 180, 138, 0.12);
-        color-scheme: dark;
-      }
+      --xp-blue-dark: #0A246A;
+      --xp-blue: #1664D9;
+      --xp-blue-mid: #3C8CF0;
+      --xp-blue-light: #A6CAF0;
+      --xp-title-top: #0A246A;
+      --xp-title-bot: #A6CAF0;
+      --beige: #ECE9D8;
+      --beige-dark: #D4D0C8;
+      --beige-face: #F1EFE2;
+      --ink: #000000;
+      --muted: #404040;
+      --window-border: #0054E3;
+      --panel: #FFFFFF;
+      --inset: #FFFFFF;
+      --shadow: #808080;
+      --start-green-top: #3C913F;
+      --start-green-bot: #1D6B20;
+      --start-green-edge: #0C4A0E;
+      --badge-ok: #006600;
+      --badge-ok-bg: #C6EFC6;
+      --badge-soon: #8B4513;
+      --badge-soon-bg: #F5DEB3;
+      --link: #0000EE;
+      --link-visited: #551A8B;
     }
 
     * { box-sizing: border-box; }
@@ -66,541 +41,780 @@
     body {
       margin: 0;
       min-height: 100vh;
-      background: var(--bg);
+      background: #3A6EA5;
+      background-image:
+        linear-gradient(180deg, rgba(90, 160, 230, 0.45) 0%, transparent 40%),
+        linear-gradient(180deg, #5BA0E6 0%, #3A6EA5 35%, #245D9C 100%);
       color: var(--ink);
-      font-family: "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
-      font-size: 1.0625rem;
-      line-height: 1.75;
-      text-rendering: optimizeLegibility;
-      -webkit-font-smoothing: antialiased;
+      font-family: "Tahoma", "MS Sans Serif", "Microsoft YaHei", "PingFang SC", "Noto Sans SC", sans-serif;
+      font-size: 13px;
+      line-height: 1.55;
     }
 
-    body::before,
-    body::after {
-      content: "";
-      position: fixed;
-      z-index: 0;
-      width: 46rem;
-      height: 46rem;
-      border-radius: 50%;
-      pointer-events: none;
-      filter: blur(28px);
-    }
-
-    body::before {
-      top: -20rem;
-      right: -14rem;
-      background: radial-gradient(circle, var(--orb-a), transparent 68%);
-      animation: drift 22s ease-in-out infinite alternate;
-    }
-
-    body::after {
-      bottom: -22rem;
-      left: -16rem;
-      background: radial-gradient(circle, var(--orb-b), transparent 68%);
-      animation: drift 28s ease-in-out infinite alternate-reverse;
-    }
-
-    @keyframes drift {
-      from { transform: translate3d(0, 0, 0); }
-      to { transform: translate3d(2.25rem, 1.4rem, 0); }
-    }
-
-    ::selection {
-      background: color-mix(in srgb, var(--accent) 30%, transparent);
-      color: var(--ink);
-    }
-
-    a:focus-visible,
-    .skip:focus {
-      outline: 2px solid var(--accent);
-      outline-offset: 3px;
-      border-radius: 6px;
+    a { color: var(--link); }
+    a:visited { color: var(--link-visited); }
+    a:focus-visible, button:focus-visible {
+      outline: 1px dotted #000;
+      outline-offset: 2px;
     }
 
     .skip {
       position: absolute;
-      left: 1rem;
-      top: -4rem;
-      z-index: 20;
-      padding: 0.45rem 0.75rem;
-      background: var(--ink);
-      color: var(--bg);
-      border-radius: 8px;
+      left: 8px;
+      top: -40px;
+      z-index: 50;
+      padding: 4px 8px;
+      background: #000;
+      color: #fff;
       text-decoration: none;
     }
+    .skip:focus { top: 8px; }
 
-    .skip:focus { top: 0.75rem; }
-
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 5;
-      border-bottom: 1px solid var(--line);
-      background: var(--topbar);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+    /* Desktop stage */
+    .desktop {
+      width: min(920px, calc(100% - 24px));
+      margin: 16px auto 72px;
     }
 
-    .topbar-inner {
+    /* Main browser window */
+    .window {
+      border: 3px solid var(--window-border);
+      border-radius: 8px 8px 0 0;
+      background: var(--beige);
+      box-shadow:
+        inset 1px 1px 0 #fff,
+        4px 4px 0 rgba(0, 0, 0, 0.25);
+    }
+
+    .titlebar {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      width: min(48rem, calc(100% - 2.5rem));
-      margin: 0 auto;
-      padding: 0.85rem 0;
+      gap: 8px;
+      height: 30px;
+      padding: 0 4px 0 8px;
+      background: linear-gradient(180deg, #0A246A 0%, #0A246A 4%, #245EDC 12%, #3A8CF0 50%, #1664D9 88%, #0A246A 100%);
+      border-radius: 5px 5px 0 0;
+      color: #fff;
+      font-weight: 700;
+      font-size: 13px;
+      text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.45);
+      user-select: none;
     }
 
-    .brand {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.7rem;
-      color: var(--ink);
-      text-decoration: none;
-    }
-
-    .mark {
+    .titlebar-icon {
+      width: 16px;
+      height: 16px;
+      flex: none;
+      border-radius: 2px;
+      background: linear-gradient(135deg, #fff 0%, #A6CAF0 50%, #0A246A 100%);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.5);
       display: grid;
       place-items: center;
-      width: 2.15rem;
-      height: 2.15rem;
-      border-radius: 50%;
-      background: var(--mark);
-      color: var(--mark-ink);
-      font-family: "Iowan Old Style", Palatino, "Palatino Linotype", "Songti SC", "Noto Serif SC", serif;
-      font-size: 1.05rem;
-      line-height: 1;
-      transition: transform 0.25s ease;
+      font-size: 10px;
+      font-weight: 700;
+      color: #0A246A;
+      text-shadow: none;
     }
 
-    .brand:hover .mark { transform: rotate(-8deg) scale(1.04); }
-    .brand-name { font-weight: 600; letter-spacing: -0.02em; }
+    .titlebar-text {
+      flex: 1;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
 
-    .nav {
+    .titlebar-controls {
+      display: flex;
+      gap: 2px;
+      flex: none;
+    }
+
+    .tb-btn {
+      width: 21px;
+      height: 21px;
+      border: 1px solid #003c74;
+      border-radius: 3px;
+      background: linear-gradient(180deg, #3C8CF0, #1664D9);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 19px;
+      text-align: center;
+      text-shadow: 0 0 1px #000;
+      box-shadow: inset 1px 1px 0 rgba(255,255,255,0.45);
+      cursor: default;
+    }
+    .tb-btn.close {
+      background: linear-gradient(180deg, #E07050, #C04020);
+    }
+
+    /* IE-like chrome */
+    .menubar {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.15rem;
+      gap: 2px 10px;
+      padding: 3px 8px;
+      background: var(--beige);
+      border-bottom: 1px solid #aca899;
+      color: #000;
+      font-size: 12px;
+    }
+    .menubar span { cursor: default; }
+    .menubar span:hover { background: #316ac5; color: #fff; padding: 0 2px; }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 6px;
+      background: linear-gradient(180deg, #F1EFE2, #ECE9D8);
+      border-bottom: 1px solid #aca899;
+    }
+
+    .tool-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 8px;
+      border: 1px solid transparent;
+      border-radius: 3px;
+      background: transparent;
+      color: #000;
+      font: inherit;
+      font-size: 12px;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .tool-btn:hover {
+      border-color: #fff #808080 #808080 #fff;
+      background: #f8f6ea;
+    }
+    .tool-btn:active {
+      border-color: #808080 #fff #fff #808080;
+    }
+
+    .address-bar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 8px;
+      background: var(--beige);
+      border-bottom: 1px solid #aca899;
+      font-size: 12px;
+    }
+    .address-bar label { flex: none; color: #404040; }
+    .address-field {
+      flex: 1;
+      min-width: 0;
+      padding: 3px 6px;
+      border: 2px solid;
+      border-color: #808080 #fff #fff #808080;
+      background: #fff;
+      color: #000;
+      font-family: "Tahoma", sans-serif;
+      font-size: 12px;
+    }
+
+    /* Start-like nav */
+    .start-nav {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 4px;
+      padding: 6px 8px;
+      background: linear-gradient(180deg, #245EDC 0%, #1A4EBB 100%);
+      border-bottom: 2px solid #0A246A;
+    }
+
+    .start-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 14px 4px 8px;
+      border: 1px solid #0C4A0E;
+      border-radius: 0 16px 16px 0;
+      background: linear-gradient(180deg, #5CB85C 0%, #3C913F 40%, #1D6B20 100%);
+      color: #fff;
+      font-weight: 700;
+      font-size: 13px;
+      font-style: italic;
+      text-decoration: none;
+      text-shadow: 1px 1px 1px rgba(0,0,0,0.4);
+      box-shadow: inset 1px 1px 0 rgba(255,255,255,0.35);
+    }
+    .start-btn:visited { color: #fff; }
+    .start-btn:hover {
+      filter: brightness(1.08);
+    }
+    .start-logo {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background:
+        conic-gradient(from 45deg, #f25022 0 25%, #7fba00 0 50%, #00a4ef 0 75%, #ffb900 0);
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.25);
+    }
+
+    .start-nav .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2px;
       margin: 0;
       padding: 0;
       list-style: none;
     }
-
-    .nav a {
+    .start-nav .nav-links a {
       display: inline-block;
-      padding: 0.55rem 0.75rem;
-      border-radius: 999px;
-      color: var(--muted);
-      font-size: 0.92rem;
+      padding: 4px 10px;
+      border: 1px solid transparent;
+      border-radius: 3px;
+      color: #fff;
       text-decoration: none;
-      transition: color 0.2s ease, background-color 0.2s ease;
+      font-size: 12px;
+      text-shadow: 0 1px 0 rgba(0,0,0,0.35);
+    }
+    .start-nav .nav-links a:visited { color: #fff; }
+    .start-nav .nav-links a:hover {
+      border-color: rgba(255,255,255,0.55);
+      background: rgba(255,255,255,0.15);
     }
 
-    .nav a:hover {
-      color: var(--ink);
-      background: color-mix(in srgb, var(--ink) 7%, transparent);
+    /* Page content */
+    .client {
+      padding: 14px 16px 20px;
+      background: var(--beige-face);
+      min-height: 420px;
     }
 
-    .page {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      flex-direction: column;
-      width: min(48rem, calc(100% - 2.5rem));
-      min-height: calc(100vh - 4.4rem);
-      margin: 0 auto;
-      padding: 4.25rem 0 2.25rem;
+    .hero {
+      margin: 0 0 16px;
+      padding: 12px 14px;
+      border: 2px solid;
+      border-color: #fff #808080 #808080 #fff;
+      background: #fff;
     }
-
-    .hero,
-    section { scroll-margin-top: 5.5rem; }
-
-    .kicker {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.55rem;
+    .hero .kicker {
+      margin: 0 0 4px;
+      color: #666;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+    }
+    .hero h1 {
       margin: 0;
-      color: var(--warm);
-      font-size: 0.78rem;
-      font-weight: 600;
-      letter-spacing: 0.18em;
+      font-size: 28px;
+      font-weight: 700;
+      color: #0A246A;
+      letter-spacing: -0.02em;
     }
-
-    .kicker::before {
-      content: "";
-      width: 0.42rem;
-      height: 0.42rem;
-      border-radius: 50%;
-      background: currentColor;
-    }
-
-    h1 {
-      margin: 0.85rem 0 0;
-      font-family: "Iowan Old Style", Palatino, "Palatino Linotype", "Songti SC", "Noto Serif SC", "STSong", serif;
-      font-size: clamp(2.8rem, 14vw, 5.75rem);
-      font-weight: 500;
-      letter-spacing: -0.045em;
-      line-height: 0.96;
-    }
-
-    h1::after {
-      content: "";
-      display: block;
-      width: 3rem;
-      height: 2px;
-      margin-top: 1.25rem;
-      background: linear-gradient(90deg, var(--accent), transparent);
-      transform-origin: left center;
-      animation: draw 0.8s ease 0.15s both;
-    }
-
-    @keyframes draw {
-      from { transform: scaleX(0); }
-      to { transform: scaleX(1); }
-    }
-
-    .bio {
-      max-width: 36rem;
-      margin: 1.35rem 0 0;
-      color: var(--muted);
-      font-size: 1.2rem;
-      line-height: 1.7;
+    .hero .bio {
+      margin: 8px 0 0;
+      color: #333;
+      font-size: 13px;
+      max-width: 40rem;
     }
 
     section {
-      margin-top: 2.75rem;
-      padding-top: 1.65rem;
-      border-top: 1px solid var(--line);
+      margin-top: 18px;
+      scroll-margin-top: 12px;
     }
 
-    section:target h2 { color: var(--accent-ink); }
+    .section-window {
+      border: 2px solid var(--window-border);
+      border-radius: 6px 6px 0 0;
+      background: var(--beige);
+      box-shadow: 2px 2px 0 rgba(0,0,0,0.12);
+    }
 
-    h2 {
+    .section-titlebar {
       display: flex;
-      align-items: baseline;
-      gap: 0.75rem;
-      margin: 0 0 0.85rem;
-      color: var(--muted);
-      font-size: 0.78rem;
-      font-weight: 600;
-      letter-spacing: 0.16em;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 8px;
+      background: linear-gradient(180deg, #0A246A 0%, #245EDC 35%, #3A8CF0 70%, #1664D9 100%);
+      color: #fff;
+      font-weight: 700;
+      font-size: 12px;
+      text-shadow: 1px 1px 0 rgba(0,0,0,0.35);
+      border-radius: 3px 3px 0 0;
+    }
+    .section-titlebar .idx {
+      opacity: 0.85;
+      font-weight: 400;
+      margin-right: 4px;
     }
 
-    h2 .idx {
-      color: var(--accent);
-      font-variant-numeric: tabular-nums;
-      letter-spacing: 0.04em;
+    .section-body {
+      padding: 12px;
+      background: var(--beige-face);
+    }
+    .section-body > p {
+      margin: 0 0 10px;
+      color: #333;
+      max-width: 48rem;
     }
 
-    section > p {
-      margin: 0;
-      max-width: 40rem;
-      color: var(--muted);
-    }
-
-    section:last-of-type { margin-bottom: 2.75rem; }
-
-    p a {
-      color: var(--accent-ink);
-      text-decoration-line: underline;
-      text-decoration-color: color-mix(in srgb, var(--accent) 40%, transparent);
-      text-decoration-thickness: 1px;
-      text-underline-offset: 0.22em;
-      transition: color 0.2s ease, text-decoration-color 0.2s ease;
-    }
-
-    p a:hover {
-      color: var(--accent);
-      text-decoration-color: currentColor;
-    }
-
+    /* GBA cards */
     .portfolio {
       display: grid;
-      gap: 1rem;
-      margin: 1.15rem 0 0;
+      gap: 10px;
+      margin: 0;
       padding: 0;
       list-style: none;
     }
 
     .card {
-      padding: 1.2rem 1.25rem 1.25rem;
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      background: var(--card);
-      box-shadow: var(--shadow);
-      transition: transform 0.22s ease, border-color 0.22s ease, background-color 0.22s ease;
+      border: 2px solid;
+      border-color: #fff #808080 #808080 #fff;
+      background: #fff;
+      padding: 0;
+      overflow: hidden;
     }
-
-    .card:hover {
-      transform: translateY(-2px);
-      border-color: color-mix(in srgb, var(--accent) 45%, var(--line));
-      background: var(--card-solid);
-    }
-
-    .card-head {
+    .card-titlebar {
       display: flex;
-      flex-wrap: wrap;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 0.65rem 1rem;
-      margin-bottom: 0.55rem;
-    }
-
-    .card h3 {
-      margin: 0;
-      font-size: 1.12rem;
-      font-weight: 650;
-      letter-spacing: -0.01em;
-      line-height: 1.35;
-    }
-
-    .badge {
-      display: inline-flex;
       align-items: center;
-      flex: none;
-      padding: 0.28rem 0.65rem;
-      border-radius: 999px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.04em;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 4px 8px;
+      background: linear-gradient(180deg, #245EDC, #1664D9);
+      color: #fff;
+      font-weight: 700;
+      font-size: 12px;
+      text-shadow: 1px 1px 0 rgba(0,0,0,0.3);
+    }
+    .card-titlebar h3 {
+      margin: 0;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .card-body {
+      padding: 10px 12px 12px;
+    }
+    .badge {
+      display: inline-block;
+      padding: 1px 7px;
+      border: 1px solid;
+      font-size: 11px;
+      font-weight: 700;
       white-space: nowrap;
     }
-
     .badge.released {
       color: var(--badge-ok);
       background: var(--badge-ok-bg);
+      border-color: #006600;
     }
-
     .badge.recent {
       color: var(--badge-soon);
       background: var(--badge-soon-bg);
+      border-color: #8B4513;
     }
-
     .meta {
-      margin: 0 0 0.55rem;
-      color: var(--faint);
-      font-size: 0.9rem;
+      margin: 0 0 6px;
+      color: #666;
+      font-size: 12px;
     }
-
-    .card p {
+    .card-body > p:last-child {
       margin: 0;
-      color: var(--muted);
-      font-size: 0.98rem;
-      line-height: 1.65;
+      color: #222;
+      font-size: 12.5px;
+      line-height: 1.6;
     }
 
+    /* Bilibili */
+    .videos {
+      display: grid;
+      gap: 12px;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 720px) {
+      .videos { grid-template-columns: 1fr 1fr; }
+    }
+    .video-frame {
+      border: 2px solid;
+      border-color: #808080 #fff #fff #808080;
+      background: #000;
+      padding: 0;
+    }
+    .video-frame .caption {
+      margin: 0;
+      padding: 6px 8px;
+      background: var(--beige);
+      border-top: 1px solid #aca899;
+      color: #333;
+      font-size: 11px;
+    }
+    .video-frame .caption a { font-size: 11px; }
+    .embed-wrap {
+      position: relative;
+      width: 100%;
+      padding-top: 62.5%;
+      background: #000;
+    }
+    .embed-wrap iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    /* Links list */
     .links {
-      margin: 0.35rem 0 0;
+      margin: 0;
       padding: 0;
       list-style: none;
+      display: grid;
+      gap: 8px;
     }
-
     .links a {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 1rem;
-      margin-top: 0.85rem;
-      padding: 1rem 1.05rem 1rem 1.15rem;
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      background: var(--card);
-      box-shadow: var(--shadow);
-      color: inherit;
+      gap: 10px;
+      padding: 8px 10px;
+      border: 2px solid;
+      border-color: #fff #808080 #808080 #fff;
+      background: #fff;
+      color: #000;
       text-decoration: none;
-      transition: transform 0.22s ease, border-color 0.22s ease, background-color 0.22s ease;
     }
-
     .links a:hover {
-      transform: translateY(-2px);
-      border-color: color-mix(in srgb, var(--accent) 50%, var(--line));
-      background: var(--card-solid);
+      background: #316ac5;
+      color: #fff;
+      border-color: #316ac5;
     }
+    .links a:hover .url { color: #d0e4ff; }
+    .links .name { font-weight: 700; }
+    .links .url { color: #666; font-size: 11px; }
 
-    .link-main {
+    /* Status bar */
+    .statusbar {
       display: flex;
-      flex-direction: column;
-      gap: 0.1rem;
-      min-width: 0;
+      align-items: stretch;
+      border-top: 1px solid #aca899;
+      background: var(--beige);
+      font-size: 11px;
+      color: #404040;
+    }
+    .statusbar > span {
+      padding: 3px 8px;
+      border-right: 1px solid #aca899;
+      border-left: 1px solid #fff;
+    }
+    .statusbar > span:last-child {
+      margin-left: auto;
+      border-right: none;
     }
 
-    .links .name { font-weight: 600; }
-    .links .url {
-      color: var(--faint);
-      font-size: 0.92rem;
-      overflow-wrap: anywhere;
+    /* Taskbar */
+    .taskbar {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 40;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      height: 36px;
+      padding: 3px 4px;
+      background: linear-gradient(180deg, #245EDC 0%, #1A4EBB 8%, #1941A5 100%);
+      border-top: 2px solid #3C8CF0;
+      box-shadow: 0 -2px 8px rgba(0,0,0,0.2);
+    }
+    .taskbar .start-btn {
+      height: 30px;
+      padding: 0 16px 0 6px;
+      font-size: 14px;
+    }
+    .task-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      height: 28px;
+      max-width: 180px;
+      padding: 0 10px;
+      border: 1px solid #0831D9;
+      border-radius: 3px;
+      background: linear-gradient(180deg, #3C8CF0, #1664D9);
+      color: #fff;
+      font-size: 12px;
+      text-decoration: none;
+      text-shadow: 0 1px 0 rgba(0,0,0,0.3);
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      box-shadow: inset 1px 1px 0 rgba(255,255,255,0.25);
+    }
+    .task-btn:visited { color: #fff; }
+    .task-btn.active {
+      background: linear-gradient(180deg, #1A4EBB, #0A246A);
+      border-color: #000080;
+      box-shadow: inset 1px 1px 2px rgba(0,0,0,0.35);
+    }
+    .tray {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      height: 28px;
+      padding: 0 10px;
+      border: 1px solid #0831D9;
+      border-radius: 3px;
+      background: linear-gradient(180deg, #1A4EBB, #0F3A9C);
+      color: #fff;
+      font-size: 11px;
+      text-shadow: 0 1px 0 rgba(0,0,0,0.35);
     }
 
-    .arrow {
-      display: grid;
-      flex: none;
-      place-items: center;
-      width: 2.15rem;
-      height: 2.15rem;
-      border-radius: 50%;
-      background: color-mix(in srgb, var(--accent) 14%, transparent);
-      color: var(--accent-ink);
-      transition: transform 0.22s ease, background-color 0.22s ease;
-    }
-
-    .links a:hover .arrow {
-      transform: translate(3px, -3px);
-      background: color-mix(in srgb, var(--accent) 24%, transparent);
-    }
-
-    footer {
+    footer.page-foot {
+      margin-top: 16px;
+      padding: 8px 4px 0;
+      color: #666;
+      font-size: 11px;
       display: flex;
       justify-content: space-between;
-      gap: 1rem;
-      margin-top: auto;
-      padding-top: 1.4rem;
-      border-top: 1px solid var(--line);
-      color: var(--faint);
-      font-size: 0.88rem;
-    }
-
-    .rise { animation: rise 0.7s ease both; }
-    .page > .rise:nth-child(1) { animation-delay: 0.04s; }
-    .page > .rise:nth-child(2) { animation-delay: 0.12s; }
-    .page > .rise:nth-child(3) { animation-delay: 0.2s; }
-    .page > .rise:nth-child(4) { animation-delay: 0.28s; }
-    .page > .rise:nth-child(5) { animation-delay: 0.36s; }
-    .page > .rise:nth-child(6) { animation-delay: 0.44s; }
-
-    @keyframes rise {
-      from { opacity: 0; transform: translateY(12px); }
-      to { opacity: 1; transform: none; }
+      gap: 8px;
+      flex-wrap: wrap;
     }
 
     @media (max-width: 640px) {
-      .topbar-inner,
-      .page { width: min(48rem, calc(100% - 1.5rem)); }
-      .page { padding-top: 2.5rem; }
-      .nav a { padding: 0.45rem 0.55rem; font-size: 0.86rem; }
-      .card { padding: 1.05rem 1.05rem 1.1rem; }
-      .links a { align-items: flex-start; }
-      footer { flex-direction: column; gap: 0.25rem; }
+      .desktop { width: calc(100% - 12px); margin: 8px auto 72px; }
+      .hero h1 { font-size: 22px; }
+      .menubar { display: none; }
+      .client { padding: 10px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
-      *,
-      *::before,
-      *::after {
-        animation: none !important;
-        transition: none !important;
-      }
-      .card:hover,
-      .links a:hover,
-      .links a:hover .arrow,
-      .brand:hover .mark { transform: none; }
     }
   </style>
 </head>
 <body>
   <a class="skip" href="#content">跳到内容</a>
-  <header class="topbar">
-    <div class="topbar-inner">
-      <a class="brand" href="#top">
-        <span class="mark" aria-hidden="true">P</span>
-        <span class="brand-name">pokeman</span>
-      </a>
-      <nav aria-label="页内导航">
-        <ul class="nav">
+
+  <div class="desktop">
+    <div class="window" role="region" aria-label="Internet Explorer — pkm.life">
+      <div class="titlebar">
+        <span class="titlebar-icon" aria-hidden="true">P</span>
+        <span class="titlebar-text">pokeman — Microsoft Internet Explorer</span>
+        <div class="titlebar-controls" aria-hidden="true">
+          <span class="tb-btn">_</span>
+          <span class="tb-btn">□</span>
+          <span class="tb-btn close">×</span>
+        </div>
+      </div>
+
+      <div class="menubar" aria-hidden="true">
+        <span>文件(F)</span>
+        <span>编辑(E)</span>
+        <span>查看(V)</span>
+        <span>收藏(A)</span>
+        <span>工具(T)</span>
+        <span>帮助(H)</span>
+      </div>
+
+      <div class="toolbar" aria-label="工具栏">
+        <a class="tool-btn" href="#about">后退</a>
+        <a class="tool-btn" href="#gba">前进</a>
+        <a class="tool-btn" href="#top">停止</a>
+        <a class="tool-btn" href="#top">刷新</a>
+        <a class="tool-btn" href="#top">主页</a>
+        <a class="tool-btn" href="https://github.com/pokemanok" target="_blank" rel="noopener">搜索</a>
+        <a class="tool-btn" href="chat/">收藏</a>
+      </div>
+
+      <div class="address-bar">
+        <label for="addr">地址</label>
+        <input class="address-field" id="addr" type="text" value="https://pkm.life/" readonly aria-label="地址栏">
+      </div>
+
+      <nav class="start-nav" aria-label="页内导航">
+        <a class="start-btn" href="#top">
+          <span class="start-logo" aria-hidden="true"></span>
+          开始
+        </a>
+        <ul class="nav-links">
           <li><a href="#about">关于我</a></li>
           <li><a href="#gba">GBA 汉化</a></li>
+          <li><a href="#videos">视频</a></li>
           <li><a href="#links">链接</a></li>
           <li><a href="chat/">加密聊天</a></li>
           <li><a href="#contact">联系</a></li>
         </ul>
       </nav>
+
+      <main class="client" id="top">
+        <header class="hero" id="content">
+          <p class="kicker">个人主页 · circa 2001</p>
+          <h1>pokeman</h1>
+          <p class="bio">破壳漫 — 做 GBA 游戏简体中文个人汉化，并把作品与实验放在这里。</p>
+        </header>
+
+        <section id="about" aria-labelledby="about-title">
+          <div class="section-window">
+            <div class="section-titlebar" id="about-title"><span class="idx">01</span>关于我</div>
+            <div class="section-body">
+              <p>我是 pokeman（破壳漫），主要做 GBA 游戏的简体中文个人汉化：整理文本、点阵字库与菜单，尽量让中文在主机上可读、可玩。本站是纯静态 GitHub Pages 主页。</p>
+            </div>
+          </div>
+        </section>
+
+        <section id="gba" aria-labelledby="gba-title">
+          <div class="section-window">
+            <div class="section-titlebar" id="gba-title"><span class="idx">02</span>GBA 汉化作品</div>
+            <div class="section-body">
+              <p>以下均为破壳漫个人汉化。正式发布与「近期完成」已分开标注；不含未列出的作品。</p>
+              <ul class="portfolio">
+                <li class="card">
+                  <div class="card-titlebar">
+                    <h3>《木乃伊归来》(The Mummy)</h3>
+                    <span class="badge released">正式已发布</span>
+                  </div>
+                  <div class="card-body">
+                    <p class="meta">破壳漫个人汉化</p>
+                    <p>86 段对话 / 旁白 / 提示简体中文；标题 ENGLISH →「中文」；主菜单 / 制作名单仍为预渲染英文图。</p>
+                  </div>
+                </li>
+                <li class="card">
+                  <div class="card-titlebar">
+                    <h3>《终结者3：机器的崛起》</h3>
+                    <span class="badge released">正式已发布</span>
+                  </div>
+                  <div class="card-body">
+                    <p class="meta">破壳漫个人汉化 · v1.0（2026-10-05）</p>
+                    <p>384 条剧情 / 菜单中文；10×10 点阵字库；语言菜单署名。</p>
+                  </div>
+                </li>
+                <li class="card">
+                  <div class="card-titlebar">
+                    <h3>《环游世界80天》</h3>
+                    <span class="badge recent">近期完成</span>
+                  </div>
+                  <div class="card-body">
+                    <p class="meta">破壳漫个人汉化 · 中文版</p>
+                    <p>近期完成中文版（约 322 条文本）。尚未标为正式发布。</p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section id="videos" aria-labelledby="videos-title">
+          <div class="section-window">
+            <div class="section-titlebar" id="videos-title"><span class="idx">03</span>Bilibili 视频</div>
+            <div class="section-body">
+              <p>相关演示与介绍视频（Bilibili 嵌入播放）。</p>
+              <div class="videos">
+                <div class="video-frame">
+                  <div class="embed-wrap">
+                    <iframe
+                      src="https://player.bilibili.com/player.html?bvid=BV1qBeV6WEAq&page=1&high_quality=1&danmaku=0"
+                      loading="lazy"
+                      allowfullscreen
+                      allow="fullscreen"
+                      title="Bilibili BV1qBeV6WEAq"
+                      referrerpolicy="no-referrer-when-downgrade"></iframe>
+                  </div>
+                  <p class="caption">
+                    <a href="https://www.bilibili.com/video/BV1qBeV6WEAq/" target="_blank" rel="noopener">BV1qBeV6WEAq</a>
+                    · 在新窗口打开
+                  </p>
+                </div>
+                <div class="video-frame">
+                  <div class="embed-wrap">
+                    <iframe
+                      src="https://player.bilibili.com/player.html?bvid=BV1KfHW6qEBn&page=1&high_quality=1&danmaku=0"
+                      loading="lazy"
+                      allowfullscreen
+                      allow="fullscreen"
+                      title="Bilibili BV1KfHW6qEBn"
+                      referrerpolicy="no-referrer-when-downgrade"></iframe>
+                  </div>
+                  <p class="caption">
+                    <a href="https://www.bilibili.com/video/BV1KfHW6qEBn/" target="_blank" rel="noopener">BV1KfHW6qEBn</a>
+                    · 在新窗口打开
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="links" aria-labelledby="links-title">
+          <div class="section-window">
+            <div class="section-titlebar" id="links-title"><span class="idx">04</span>链接</div>
+            <div class="section-body">
+              <ul class="links">
+                <li>
+                  <a href="https://github.com/pokemanok" target="_blank" rel="noopener">
+                    <span>
+                      <span class="name">GitHub</span><br>
+                      <span class="url">github.com/pokemanok</span>
+                    </span>
+                    <span aria-hidden="true">»</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="chat/">
+                    <span>
+                      <span class="name">加密聊天室</span><br>
+                      <span class="url">/chat/ · 浏览器端加密演示</span>
+                    </span>
+                    <span aria-hidden="true">»</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section id="contact" aria-labelledby="contact-title">
+          <div class="section-window">
+            <div class="section-titlebar" id="contact-title"><span class="idx">05</span>联系</div>
+            <div class="section-body">
+              <p>欢迎通过 <a href="https://github.com/pokemanok" target="_blank" rel="noopener">GitHub</a> 与我联系。加密聊天演示见 <a href="chat/">/chat/</a>（需双方约定同一口令；纯静态托管有局限，详见该页说明）。</p>
+            </div>
+          </div>
+        </section>
+
+        <footer class="page-foot">
+          <span>pokeman · 破壳漫</span>
+          <span>pkm.life · Best viewed with IE 6.0</span>
+        </footer>
+      </main>
+
+      <div class="statusbar" aria-hidden="true">
+        <span>完成</span>
+        <span>Internet</span>
+        <span>pkm.life</span>
+      </div>
     </div>
-  </header>
+  </div>
 
-  <main class="page" id="top">
-    <header class="hero rise" id="content">
-      <p class="kicker">个人主页</p>
-      <h1>pokeman</h1>
-      <p class="bio">破壳漫 — 做 GBA 游戏简体中文个人汉化，并把作品与实验放在这里。</p>
-    </header>
+  <div class="taskbar" aria-label="任务栏">
+    <a class="start-btn" href="#top">
+      <span class="start-logo" aria-hidden="true"></span>
+      开始
+    </a>
+    <a class="task-btn active" href="#top">pokeman — pkm.life</a>
+    <a class="task-btn" href="chat/">加密聊天</a>
+    <div class="tray" id="tray-clock">本地时间</div>
+  </div>
 
-    <section class="rise" id="about" aria-labelledby="about-title">
-      <h2 id="about-title"><span class="idx">01</span>关于我</h2>
-      <p>我是 pokeman（破壳漫），主要做 GBA 游戏的简体中文个人汉化：整理文本、点阵字库与菜单，尽量让中文在主机上可读、可玩。本站是纯静态 GitHub Pages 主页。</p>
-    </section>
-
-    <section class="rise" id="gba" aria-labelledby="gba-title">
-      <h2 id="gba-title"><span class="idx">02</span>GBA 汉化作品</h2>
-      <p>以下均为破壳漫个人汉化。正式发布与「近期完成」已分开标注；不含未列出的作品。</p>
-      <ul class="portfolio">
-        <li class="card">
-          <div class="card-head">
-            <h3>《木乃伊归来》(The Mummy)</h3>
-            <span class="badge released">正式已发布</span>
-          </div>
-          <p class="meta">破壳漫个人汉化</p>
-          <p>86 段对话 / 旁白 / 提示简体中文；标题 ENGLISH →「中文」；主菜单 / 制作名单仍为预渲染英文图。</p>
-        </li>
-        <li class="card">
-          <div class="card-head">
-            <h3>《终结者3：机器的崛起》</h3>
-            <span class="badge released">正式已发布</span>
-          </div>
-          <p class="meta">破壳漫个人汉化 · v1.0（2026-10-05）</p>
-          <p>384 条剧情 / 菜单中文；10×10 点阵字库；语言菜单署名。</p>
-        </li>
-        <li class="card">
-          <div class="card-head">
-            <h3>《环游世界80天》</h3>
-            <span class="badge recent">近期完成</span>
-          </div>
-          <p class="meta">破壳漫个人汉化 · 中文版</p>
-          <p>近期完成中文版（约 322 条文本）。尚未标为正式发布。</p>
-        </li>
-      </ul>
-    </section>
-
-    <section class="rise" id="links" aria-labelledby="links-title">
-      <h2 id="links-title"><span class="idx">03</span>链接</h2>
-      <ul class="links">
-        <li>
-          <a href="https://github.com/pokemanok">
-            <span class="link-main">
-              <span class="name">GitHub</span>
-              <span class="url">github.com/pokemanok</span>
-            </span>
-            <span class="arrow" aria-hidden="true">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <path d="M4.5 11.5L11.5 4.5M11.5 4.5H6.5M11.5 4.5V9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </span>
-          </a>
-        </li>
-        <li>
-          <a href="chat/">
-            <span class="link-main">
-              <span class="name">加密聊天室</span>
-              <span class="url">/chat/ · 浏览器端加密演示</span>
-            </span>
-            <span class="arrow" aria-hidden="true">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <path d="M4.5 11.5L11.5 4.5M11.5 4.5H6.5M11.5 4.5V9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </span>
-          </a>
-        </li>
-      </ul>
-    </section>
-
-    <section class="rise" id="contact" aria-labelledby="contact-title">
-      <h2 id="contact-title"><span class="idx">04</span>联系</h2>
-      <p>欢迎通过 <a href="https://github.com/pokemanok">GitHub</a> 与我联系。加密聊天演示见 <a href="chat/">/chat/</a>（需双方约定同一口令；纯静态托管有局限，详见该页说明）。</p>
-    </section>
-
-    <footer class="rise">
-      <span>pokeman · 破壳漫</span>
-      <span>pkm.life</span>
-    </footer>
-  </main>
+  <script>
+    (function () {
+      var el = document.getElementById("tray-clock");
+      function tick() {
+        var d = new Date();
+        var hh = String(d.getHours()).padStart(2, "0");
+        var mm = String(d.getMinutes()).padStart(2, "0");
+        el.textContent = hh + ":" + mm;
+      }
+      tick();
+      setInterval(tick, 30000);
+    })();
+  </script>
 </body>
 </html>
